@@ -17,7 +17,7 @@ try
     end
     % On/Off level control for tank 1
     if X_sim(1,i) >= max_t1
-        input1 = u1_on * (0.8 + (1-0.8).*rand(1,1));
+        input1 = u1_on; %* (0.8 + (1-0.8).*rand(1,1));                      % random amplitude
     elseif X_sim(1,i) <= min_t1 
         input1 = u1_off; 
     end 
@@ -28,7 +28,7 @@ try
     %end
     % On/Off level control for tank 2
     if X_sim(2,i) >= max_t2 
-        input2 = u2_on * (0.6 + (1-0.6).*rand(1,1));
+        input2 = u2_on; %* (0.6 + (1-0.6).*rand(1,1));
     elseif X_sim(2,i) <= min_t2 
         input2 = u2_off;
     end 

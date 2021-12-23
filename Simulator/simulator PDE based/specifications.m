@@ -23,7 +23,7 @@ load('parameters\P_pipe_min_v2')    % load Gravity pipe parameters
 load('parameters\Kt')               % load tank parameters
 t_resample = 20;                    % Resample raw data - conversion between simulator/MPC time steps
 if controlType == 1
-    dataLoad;                      % load data from experiment
+    %dataLoad;                      % load data from experiment
 end
 P_sim = [P_pipe_min_v2, Kt, Kt]';   % all sim parameters
 
@@ -32,23 +32,23 @@ P_sim = [P_pipe_min_v2, Kt, Kt]';   % all sim parameters
 if controlType == 1
     input1 = 0;
     input2 = 0;
-    u1_on = 9;      
-    u1_off = 3.4;
-    u2_on = 19.5;     
-    u2_off = 5.4;
+    u1_on = 10.5;      
+    u1_off = 5;
+    u2_on = 20;     
+    u2_off = 6;
 elseif controlType == 2 
     u1_on = 9;%8.3;                           
-    u1_off = 3.4;                         
+    u1_off = 5;                         
     u2_on = 17.5;%16;%19.5; %10.5;                        
-    u2_off = 5.4;                         
+    u2_off = 6;                         
 end
 
 %% state constraints 
 % Tank constraints
-max_t1 = 7.2;%7;       
-min_t1 = 1;%1.8;             % 6.7 physical maximum 
-max_t2 = 7.2;%6.5;     
-min_t2 = 1;%1.8;
+max_t1 = 7;       
+min_t1 = 2.5;%1.8;             
+max_t2 = 6.5;     
+min_t2 = 2.5;%1.8;
 
 % Pipe constraints
 if controlType == 2
