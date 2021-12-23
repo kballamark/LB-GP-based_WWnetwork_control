@@ -28,6 +28,10 @@ try
         input2 = u2_off;
     end 
     U_sim(2,i) = input2;
+    
+    U_opt(1,i) = input1;
+    U_opt(2,i) = input2;
+    
 catch
     fprintf('Error in on/off control \n');
 end

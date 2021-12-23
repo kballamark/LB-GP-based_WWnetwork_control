@@ -13,7 +13,8 @@ ND = 3;                             % number of disturbances
 
 load('parameters\P_pipe_min')     % load Gravity pipe parameters
 load('parameters\P_pipe_min_v2')     % load Gravity pipe parameters
-dataLoad;                           % load data from experiment
+
+Kt = 4.9087;
 
 P_sim = [P_pipe_min_v2, Kt, Kt]';      % all sim parameters
 
@@ -30,6 +31,7 @@ u1_on = 9;      u1_off = 4;
 u2_on = 10.5;       u2_off = 4.3;
 
 %% MPC specs
+t_resample = 20;              
 Hp = 40;
 dt_MPC = 0.5*t_resample/60;
 
