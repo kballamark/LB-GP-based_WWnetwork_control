@@ -27,6 +27,7 @@ X_ref_design;                                                                   
 
 %% ============================================  Forecasts  ========================================
 load('D_sim')                                                                            % for testing reference tracking
+D_sim(3,:) = D_sim(3,:)*0.8+1.5;
 %load('D_sim_mod')                                                                         % intensive rain events
 %D_sim = D_sim_mod;
 
