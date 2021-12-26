@@ -51,6 +51,7 @@ end
 
 X0 = X0/100;
 
+tic
 % openloop MPC
 if warmStartEnabler == 1
     % Parametrized Open Loop Control problem with WARM START
@@ -59,6 +60,7 @@ elseif warmStartEnabler == 0
     % Parametrized Open Loop Control problem without WARM START 
     [u,S,Y] = OCP(X0, disturbance, P_sim, reference, dT);
 end
+toc
 
 u_full = full(u);
 S_full = full(S);

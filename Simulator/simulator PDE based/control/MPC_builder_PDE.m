@@ -37,7 +37,7 @@ Y     = P(2)*g(X(Nxt+ Nxp,:),P(3));
 %objective = sumsqr(U) + 10000*sumsqr(S) + 100*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - X_ref); %+ 1*sumsqr(X(1:Nxt,:)); %+ sumsqr(X(1:Nxt,:) - X_ref); %+ sumsqr(S);                          
 
 % overflow prevention
-objective = 0.001*sumsqr(U(2,:)) + 1*sumsqr(U(1,:)) + 10000*sumsqr(S) + 5*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - X_ref); %+ 1*sumsqr(X(1:Nxt,:)); %+ sumsqr(X(1:Nxt,:) - X_ref); %+ sumsqr(S);                          
+objective = 0.1*(sumsqr(U(1,:))/du1 + sumsqr(U(2,:))/du2 ) + 100*sumsqr(S) + 10*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - X_ref);  %+ 1*sumsqr(X(1:Nxt,:)); %+ sumsqr(X(1:Nxt,:) - X_ref); %+ sumsqr(S);                          
 
 opti.minimize(objective); 
 

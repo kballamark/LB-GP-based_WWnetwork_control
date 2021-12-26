@@ -2,7 +2,7 @@ clearvars, clc, clear path
 
 N = 10000;                                                                          % length of simulation (dependent on the length of disturbance data)
 
-controlType = 1;                                                                         % switch between on/off and MPC
+controlType = 2;                                                                         % switch between on/off and MPC
 
 %% ============================================ Control setup ======================================
 specifications;
@@ -20,13 +20,14 @@ X_sim(2,1) = 3.8;%x(2,1);                                                       
 X_sim(Nxt+1:Nxt+Nxp,1) = 0.001;%x(Nxt+1:Nxt+Nxp,1);                                       % init. pipe states [m]
 dt_sim = 0.5*t_resample/60;                                                               % sampling time [s]       
 
-lam_g = 0;                                                                                % warm start - Lagrange multiplier initializer
+lam_g = 1;                                                                                % warm start - Lagrange multiplier initializer
 x_init = 0.1;  
 
-X_ref_design;                                                                             % Varying reference
+%X_ref_design;                                                                             % Varying reference
 
 %% ============================================  Forecasts  ========================================
 load('D_sim')                                                                            % for testing reference tracking
+D_sim(1,:) = D_sim(1,:)*0.7+1;
 D_sim(3,:) = D_sim(3,:)*0.8+1.5;
 %load('D_sim_mod')                                                                         % intensive rain events
 %D_sim = D_sim_mod;

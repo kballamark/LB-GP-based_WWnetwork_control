@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/test_data');
+load('data/KW_MPC_26_12_2021');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
