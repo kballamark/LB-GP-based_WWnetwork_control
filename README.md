@@ -10,7 +10,7 @@
 ## General info
 This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study". The project description is the following: 
 
-(The abstract goes here.)
+*The abstract goes here.*
 	
 ## Tools
 Tools designed specifically for the Smart Water Laboratory experiments carried out in the project
