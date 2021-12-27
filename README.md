@@ -1,12 +1,29 @@
 # A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study
 
 ## Table of contents
+* [How to cite](#how-to-cite)
 * [General info](#general-info)
 * [Tools](#tools)
 * [Documentation](#documentation)
 * [Simulator](#simulator)
 * [Data collection](#data-collection)
 * [GP-MPC controller](#GP-MPC-controller)
+
+## How to cite
+
+>Paper harvard style
+
+```
+@article{name_article,
+title = "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study",
+author = "Balla, {Krisztian Mark} and Bendtsen, {Jan Dimon} and Kalles{\o}e, {Carsten Skovmose} and Carlos Ocampo-Martinez",
+year = "unspecified",
+language = "English",
+journal = "unspecified",
+issn = "unspecified",
+publisher = "unspecified",
+}
+```
 
 ## General info
 This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study". The project description is the following: 
@@ -16,7 +33,7 @@ This repository is a how-to documentation for the control toolchain designed in 
 ![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/setup_scheme.PNG)
 
 The project is created with the following tools: 
-* _Casadi_ (https://web.casadi.org/docs/) : To solve and simulate all dynamic optimization included in this project.
+* [Casadi](https://web.casadi.org/docs/) : To solve and simulate all dynamic optimization included in this project.
 * _fitrgp()_ (https://se.mathworks.com/help/stats/fitrgp.html): To obtain the hyperparameters through Bayesian optimization with Gaussian Process regression.
 * _Simulink_ (https://www.mathworks.com/products/simulink.html) : To deploy the real-time controller to the experimental setup with ModBus.
 * _CodeSys_ (https://www.codesys.com/) : To control valves, pumps and tank units on the setup through virtual PLCs.
