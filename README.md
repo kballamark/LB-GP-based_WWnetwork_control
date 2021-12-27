@@ -34,9 +34,9 @@ This repository is a how-to documentation for the control toolchain designed in 
 
 The project is created with the following tools: 
 * [Casadi](https://web.casadi.org/docs/) : To solve and simulate all dynamic optimization included in this project.
-* _fitrgp()_ (https://se.mathworks.com/help/stats/fitrgp.html): To obtain the hyperparameters through Bayesian optimization with Gaussian Process regression.
-* _Simulink_ (https://www.mathworks.com/products/simulink.html) : To deploy the real-time controller to the experimental setup with ModBus.
-* _CodeSys_ (https://www.codesys.com/) : To control valves, pumps and tank units on the setup through virtual PLCs.
+* [fitrgp()](https://se.mathworks.com/help/stats/fitrgp.html) : To obtain the hyperparameters through Bayesian optimization with Gaussian Process regression.
+* [Simulink](https://www.mathworks.com/products/simulink.html) : To deploy the real-time controller to the experimental setup with ModBus.
+* [CodeSys](https://www.codesys.com/) : To control valves, pumps and tank units on the setup through virtual PLCs.
 	
 ## Tools
 Tools designed specifically for the Smart Water Laboratory experiments carried out in the project
