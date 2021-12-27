@@ -13,7 +13,7 @@ This repository is a how-to documentation for the control toolchain designed in 
 
 >The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here.
 
-![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/lab_figure.jpg)
+![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/setup_scheme.png)
 
 The project is created with the following tools: 
 * _Casadi_ (https://web.casadi.org/docs/) : To solve and simulate all dynamic optimization included in this project.
