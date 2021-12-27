@@ -6,11 +6,22 @@
 * [Documentation](#documentation)
 * [Simulator](#simulator)
 * [Data collection](#data-collection)
+* [GP-MPC controller](#GP-MPC-controller)
 
 ## General info
 This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study". The project description is the following: 
 
 *The abstract goes here.*
+
+The project is created with the following tools: 
+* Casadi (https://web.casadi.org/docs/)
+    To solve and simulate all dynamic optimization included in this project.
+* fitrgp() toolbox in Matlab
+    To obtain the hyperparameters through Bayesian optimization with Gaussian Process regression.
+* Simulink
+    To deploy the real-time controller to the experimental setup with ModBus.
+* CodeSys
+    To control valves, pumps and tank units on the setup through virtual PLCs.
 	
 ## Tools
 Tools designed specifically for the Smart Water Laboratory experiments carried out in the project
@@ -34,4 +45,6 @@ Randomized Onoff, rule-based Onoff and closed loop deterministic MPC data collec
 * Onoff randomized data collection
 * Rule-based Onoff data collection
 
+## GP-MPC controller
+The closed-loop controller deployed to the Smart Water Laboratory.  
 
