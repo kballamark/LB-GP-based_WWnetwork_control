@@ -59,8 +59,11 @@ clear X_ref_sim;
 X_ref_sim(1,:) = resample(X_ref_sim_mod(1,:),1,2);
 X_ref_sim(2,:) = resample(X_ref_sim_mod(2,:),1,2);
 
-X_ref_sim(1,1:8440) = 3;
-X_ref_sim(2,1:8440) = 3;
+% X_ref_sim(1,1:8440) = 3;
+% X_ref_sim(2,1:8440) = 3;
+
+X_ref_sim(1,:) = 4;
+X_ref_sim(2,:) = 4;
 
 % modification
 D_sim(1,:) = D_sim(1,:)*0.7+1;

@@ -39,7 +39,7 @@ Y     = P(2)*g(X(Nxt+ Nxp,:),P(3));
 
 %% =========================================== Objective function ==============================
 
-objective = 0.1*(sumsqr(U(1,:))/du1 + sumsqr(U(2,:))/du2 ) + 100*sumsqr(S) + 10*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - X_ref); %+ 1*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - [2;2]);                       
+objective = 10*(sumsqr(U(1,:))/du1 + sumsqr(U(2,:))/du2 ) + 100*sumsqr(S) + 10*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - X_ref); %+ 1*(Kt/dt_MPC)*sumsqr(X(1:Nxt,2:end) - [2;2]);                       
 opti.minimize(objective); 
 
 %% ============================================== Dynamics =====================================
