@@ -1,12 +1,21 @@
 # A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study
 
+This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study".  
+
+Project description:
+>The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here.
+
+![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/setup_scheme.PNG)
+
 ## Table of contents
 * [How to cite](#how-to-cite)
-* [General info](#general-info)
+* [Requirements](#general-info)
+* [Data collection](#data-collection)
+* [Data loader](#data-loader)
 * [Tools](#tools)
 * [Documentation](#documentation)
 * [Simulator](#simulator)
-* [Data collection](#data-collection)
+
 * [GP-MPC controller](#GP-MPC-controller)
 
 ## How to cite
@@ -25,22 +34,24 @@ publisher = "unspecified",
 }
 ```
 
-## General info
-This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study". The project description is the following: 
+## Requirements
 
->The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here.
-
-![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/setup_scheme.PNG)
-
-The project is created with the following tools: 
 * [Casadi](https://web.casadi.org/docs/) : To solve and simulate all dynamic optimization included in this project.
 * [fitrgp()](https://se.mathworks.com/help/stats/fitrgp.html) : To obtain the hyperparameters through Bayesian optimization with Gaussian Process regression.
 * [Simulink](https://www.mathworks.com/products/simulink.html) : To deploy the real-time controller to the experimental setup with ModBus.
 * [CodeSys](https://www.codesys.com/) : To control valves, pumps and tank units on the setup through virtual PLCs.
+
+## Data collection
+Randomized Onoff, rule-based Onoff and closed loop deterministic MPC data collection scripts for the experimental setup. 
+* Onoff randomized data collection
+* Rule-based Onoff data collection
+
+## Data loader
+Workspace is saved in the `data` folder. Run `dataLoad.m` to plot the results of the experiment. 
 	
 ## Tools
-Tools designed specifically for the Smart Water Laboratory experiments carried out in the project
-* Manual control
+Tools designed specifically for the Smart Water Laboratory experiments. 
+* Manual control : 
 * Lab setup initialization
 
 ## Documentation
@@ -54,11 +65,6 @@ An exact simulator designed specifically for the experimental setup. The simulat
 
 * simulator PDE based
 * simulator GP
-
-## Data collection
-Randomized Onoff, rule-based Onoff and closed loop deterministic MPC data collection scripts for the experimental setup. 
-* Onoff randomized data collection
-* Rule-based Onoff data collection
 
 ## GP-MPC controller
 The closed-loop controller deployed to the Smart Water Laboratory.  
