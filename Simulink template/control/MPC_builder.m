@@ -85,7 +85,7 @@ for k = 1:Nxt
 end
 
 for k = (Nxt+1):(Nxt+Nxp)
-    opti.subject_to(Xp_lb(k-Nxt,:) < X(k,:) <= Xp_ub(k-Nxt,:));             % hard constraint on pipe state
+    opti.subject_to(Xp_lb(k-Nxt,:) <= X(k,:) <= Xp_ub(k-Nxt,:));             % hard constraint on pipe state
 end
 
 %% ====================================== Solver settings ==================================
