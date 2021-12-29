@@ -9,13 +9,13 @@ Project description:
 
 ## Table of contents
 * [How to cite](#how-to-cite)
-* [Requirements](#general-info)
+* [Requirements](#requirements)
 * [Data collection](#data-collection)
 * [Data loader](#data-loader)
+* [Dependencies](#dependencies)
 * [Tools](#tools)
 * [Documentation](#documentation)
 * [Simulator](#simulator)
-
 * [GP-MPC controller](#GP-MPC-controller)
 
 ## How to cite
@@ -48,23 +48,27 @@ Randomized Onoff, rule-based Onoff and closed loop deterministic MPC data collec
 
 ## Data loader
 Workspace is saved in the `data` folder. Run `dataLoad.m` to plot the results of the experiment. 
+
+## Dependencies
+Add this folder to the path when running experiments on the AAU Smart Water Lab. 
+* Matlab Modbus
+* Real-time pacer
 	
 ## Tools
 Tools designed specifically for the Smart Water Laboratory experiments. 
-* Manual control : 
-* Lab setup initialization
+* Manual control : Run the Simulink file `Manual_Pump_Control.slx` to manually control the pumps on the experimental setup with the use of sliding bars. 
+* Lab setup initialization: Run the Simulink file `outter_tanks_init.slx` to bring the inner and outer tanks to a pre-defined initial state before starting the experiments.
 
 ## Documentation
-Detailed documentation with illustrations for the topological layout and the physical description of the expereimental setup. 
-* WW Lab setup (pdf)
-	
+Detailed documentation (`WW Lab setup doc.pdf`) with illustrations for the topological layout and the physical description of the expereimental setup. 
+
 ## Simulator
-An exact simulator designed specifically for the experimental setup. The simulator represents the equivalent of the Smart Water Lab. The purpose of this simulator is the reproducability of the tests in simulation in case the laboratory access is out of scope. The modelling used in the simulator setup is from the following article: 
+An exact simulator designed specifically for the experimental setup. The simulator represents the equivalent of the Smart Water Lab. The purpose of this simulator is the reproducability of the tests in simulation in case the laboratory access is out of scope. The modelling used in the simulator setup is based on the article: 
 
 >Balla, KM, Schou, C, Bendtsen, JD, Ocampo-Martinez, C & Kallesøe, C 2021, 'A Nonlinear Predictive Control Approach for Urban Drainage Networks Using Data-Driven Models and Moving Horizon Estimation', IEEE Transactions on Control Systems Technology.
 
-* simulator PDE based
-* simulator GP
+* simulator PDE based: Run the `main_simulator.m` file to start the simulation. There are two types of controllers implemented in this simulator. In the simulation loop select number 1 to execute `onoff_control.m` for rule-based on/off control or number 2 to build `MPC_builder.m` to execute the PDE-based MPC.
+* simulator GP : (description in progress)
 
 ## GP-MPC controller
 The closed-loop controller deployed to the Smart Water Laboratory.  
