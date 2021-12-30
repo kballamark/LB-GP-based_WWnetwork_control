@@ -50,8 +50,8 @@ dt_sim = 0.5*t_resample/60;
 load('time series\D_sim.mat');
 
 % modification
-D_sim(1,:) = D_sim(1,:)*0.7+1;
-D_sim(3,:) = D_sim(3,:)*0.8+1.5;
+% D_sim(1,:) = D_sim(1,:)*0.7+1;
+% D_sim(3,:) = D_sim(3,:)*0.8+1.5;
 %% reference
 load('time series\X_ref_sim.mat');
 
