@@ -40,7 +40,7 @@ Hp = 60;
 t_resample = 20;
 dt_MPC = 0.5*t_resample/60;
 
-lam_g = 0;                     % warm start - Lagrange multiplier initializer
+lam_g = 1;                     % warm start - Lagrange multiplier initializer
 x_init = 0.001;  
  
 t_step = 20;
@@ -60,9 +60,4 @@ X_ref_sim(2,:) = 4;
 
 %%
 MPC_builder;
-
-%%
-
-
-
 

@@ -1,0 +1,65 @@
+function [output]  = simulink_onoff(X0,time)
+
+% define persistent variables
+eml.extrinsic('evalin');
+persistent max_t1;
+persistent min_t1;
+persistent max_t2;
+persistent min_t2;
+persistent u1_on;
+persistent u1_off;
+persistent u2_on;
+persistent u2_off;
+
+% Sample time in minutes
+dT = 1/6;             
+% Sampling frequency in seconds
+simulink_frequency = 2;  
+
+% init persistent variables
+if isempty(lam_g)
+    max_t1 = 6.9;     
+    min_t1 = 2;            
+    max_t2 = 6.4;               
+    min_t2 = 2;
+    u1_on = 7.8;       
+    u1_off = 4.5;
+    u2_on = 15;   
+    u2_off = 5;
+    
+    % get values from workspace
+    max_t1 = evalin('base','max_t1');
+    min_t1 = evalin('base','min_t1');
+    max_t2 = evalin('base','max_t2');
+    min_t2 = evalin('base','min_t2');
+    u1_on = evalin('base','u1_on');
+    u1_off = evalin('base','u1_off');
+    u2_on = evalin('base','u2_on');
+    u2_off = evalin('base','u2_off');
+end
+
+time = int64(round(time));
+
+X0 = X0/100;
+
+tic
+% Onoff control logic
+if X_sim(1,i) >= max_t1
+        input1 = u1_on; %* (0.8 + (1-0.8).*rand(1,1));                      % random amplitude
+elseif X_sim(1,i) <= min_t1 
+        input1 = u1_off; 
+end 
+
+
+toc
+
+u_full = full(u);
+S_full = full(S);
+u = u_full(1:2);
+S = S_full(1:2);
+
+output = [u;S;reference(:,1)*100];
+
+%plot_simulink_mpc(u_full,S_full,X0,disturbance,Hp);
+
+end
