@@ -1,6 +1,6 @@
 %% MPC_builder_GP.m
 
-addpath('C:\Users\74647\OneDrive - Grundfos\MATLAB\CasAdi') 
+addpath('C:\Users\Krisztian\Documents\GitHub\LB-GP-based_WWnetwork_control\CasAdi') 
 import casadi.*
 opti = casadi.Opti();                                       
 
@@ -69,12 +69,6 @@ inv_K_xx = opti.parameter(M,M*Nx);                          % Covariance matrice
 T = opti.parameter(1,Hp);                               % time as the last dimension
 
 %% ============================================ Casadi MX variables ===============================
-% mu_X       = casadi.MX(Nx,Hp+1);                                         
-% mu_X(:,1)  = mu_X0;                                         % init. mean (measured state)
-% sigma_X    = casadi.MX(Nx, (Hp+1)*Nx);
-% sigma_X(:,1:1*Nx) = sigma_X0;                               % init variance (zero)
-
-%%
 mu_X = opti.variable(Nx,Hp+1);
 opti.subject_to(mu_X(:,1) == mu_X0);   
 sigma_X = opti.variable(Nx, (Hp+1)*Nx);
@@ -126,7 +120,6 @@ end
 hV = Kt/dt_MPC;
 W_x = 10;
 W_u = [8,0; 0,4];
-%W_s = 50;
 %W_s = [20,0,0,0; 0,50,0,0; 0,0,4,0; 0,0,0,10];  
 W_s = [20,0,0,0; 0,40,0,0; 0,0,20,0; 0,0,0,40];  
 W_o = 1000;%100;
@@ -138,7 +131,6 @@ end
 
 objective_all = W_x*hV*(0.0005*sumsqr(mu_X(1:Nxt,2:end)) + 0.0000001*objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);    
 opti.minimize(objective_all); 
-
 %W_x*hV*(0.0005*sumsqr(mu_X(:,2:end)) + objective_sigma)
 
 %% ============================================== Constraints ==================================
@@ -157,36 +149,16 @@ for k = 1:Hp
 end
 
 %% Optimization setup 
-
-ipopt_opt = 1;
-if ipopt_opt == 1
 opts = struct;
-% opts.ipopt.print_level = 0;                                                    % print enabler to command line
-% opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
-opts.print_time = true; 
+opts.ipopt.print_level = 0;                                                    % print enabler to command line
+opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
 opts.expand = true;                                                            % makes function evaluations faster
 opts.calc_lam_x = true;   
 opts.ipopt.max_iter = 100;                                                     % max solver iteration
-%  opts.ipopt.tol = xy;
-%  opts.ipopt.constr_viol_tol = xy;
 opti.solver('ipopt',opts); 
-end
-
-%% SQP method
-if ipopt_opt == 0
-opts.qpsol = 'qrqp';
-opti.solver('sqpmethod',opts);
-% opts.print_header = false;
-% opts.print_iteration = false;
-% opts.print_time = false; 
-opts.error_on_fail = false;
-opts.qpsol_options.error_on_fail = false;
-opti.solver('sqpmethod',opts);
-end
 
 %% Setup OCP
 tic
-
 OCP = opti.to_function('OCP',{mu_X0, D, sigma_X0, Z_train, Y_train, GP_sigma_F, opti.lam_g, opti.x, inv_K_xx, u0, T},...
     {U, mu_X(:,1:Hp), sigma_X(:,1:Nx*Hp), opti.lam_g, opti.x, mu_d(:,1), XI, EPS, dU},...
     {'mu_x0','d','sigma_x0','z_train','y_train','GP_sigma_f','lam_g','init_x','inv_K_xx','u0','t'},...

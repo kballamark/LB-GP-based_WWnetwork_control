@@ -2,7 +2,7 @@
 % """
 % Builds optimization problem
 % """
-addpath('C:\Users\74647\OneDrive - Grundfos\MATLAB\CasAdi') 
+addpath('C:\Users\Krisztian\Documents\GitHub\LB-GP-based_WWnetwork_control\CasAdi') 
 import casadi.*
 opti = casadi.Opti();                                       % Optimization problem
 

@@ -40,58 +40,39 @@ load('D_sim')
 load('D_sim_rain')
 
 %% GP dynamics properties
-M  = 80;                 % 70 works           % dimesnion of K_ZZ covariance matrix used in MPC
+M  = 60;                 % 70 works           % dimesnion of K_ZZ covariance matrix used in MPC
 Nz = Nx + Nu + ND + 1;              % dimension of the training set 
 
 % Load GP object (hyperparameters, mappings, training data)
 %GP = load('.\parameters\GP_parameters.mat'); 
 GP = load('.\parameters\test\GP_parameters.mat'); 
 
-% GP.sigma_f(3) = 0.1396;
-% GP.sigma_f(4) = 0.0206;
-% GP.inv_sigma_L{3} = [0.0892,0;0,0.1062];
-% GP.inv_sigma_L{4} = [0.1928,0,0,0; 0, 0.1932,0,0; 0,0,0.1566,0; 0,0,0,0.7483];;
-% GP.sigma(3) = 0.0010;
-% GP.sigma(4) = 0.0010;
-
 %% 
 
 % level offset 
 h_lift = 2;                         % [dm]
+
 % Input constraints                 % [l/dm]  
 u1_on  = 6 + 0.5;                   %6.5                                          
 u1_off = 3.4;                         
 u2_on  = 14;                      %14.5   
-u2_off = 5.4;                         
+u2_off = 5.4;         
+
 % Tank constraints                  % [dm]
 max_t1 = 7;       
 min_t1 = 1.8 + h_lift;             
 max_t2 = 6.5;     
 min_t2 = 2.3 + h_lift;
-% % Tank safety region
-% max_t1_op = (3 + h_lift);                     % [dm]
-% min_t1_op = (2.3 + h_lift);
-% max_t2_op = (3.5 + h_lift);
-% min_t2_op = (2.8 + h_lift);
+
 % Pipe constraints                  % [dm]
 h_p_max = 0.4;
 h_p_min = 0.00001;
 
 % Tank safety region
-max_t1_op = 5.5-0.3;                     % [dm]
+max_t1_op = 5.5-0.3;                % [dm]
 min_t1_op = 4;
 max_t2_op = 5.5-0.3;
 min_t2_op = 4.5;
-
-%% Safety region selector
-
-max_t1_cases = [4.8, 4.65, 4.6, 5.9, 5.75, 5.6, 7, 6.9, 6.7, 5.9, 7, 7];
-min_t1_cases = [3.8, 3.95, 4.1, 4.8, 4.95, 5.1, 5.9, 6.05, 6.2, 3.8, 4.8, 3.8];
-
-s_select = 1;
-
-%max_t1_op = max_t1_cases(s_select);
-%min_t1_op = min_t1_cases(s_select);
 
 %% MPC specs
 t_resample = 20;                    % Resample raw data - conversion between simulator/MPC time steps
@@ -116,11 +97,6 @@ u_prev = [0;0];                     % init. integral action
 Z_train_subset = GP.z_train(:,t_init:t_init+M-1);   % Initialize the training subset randomly (first M entry) GP.z_train(:,randperm(length(GP.z_train(1,:)),M));%
 Y_train_subset = GP.y_train(:,t_init:t_init+M-1);   %GP.y_train(:,randperm(length(GP.y_train(1,:)),M));%
 K_xx_builder;                                   % build initial K_xx from historic MxM training points
-
-%% Load reference    
-X_ref_design;
-% test
-%X_ref_sim = ones(2,N*t_resample)*4; 
 
 %% Fixed disturbance forecast
 
