@@ -19,7 +19,7 @@ This repository is a how-to documentation for the control toolchain designed in 
 
 ## How to cite
 
->Paper harvard style
+>Balla, KM, Bendtsen, JD, Kallesøe, C, & Ocampo-Martinez, C 2021, 'A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study', Unspecified.
 
 ```
 @article{name_article,
