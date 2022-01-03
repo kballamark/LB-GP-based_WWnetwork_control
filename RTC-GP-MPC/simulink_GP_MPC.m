@@ -6,7 +6,10 @@ persistent x_init;           persistent lam_g;               persistent period
 persistent OCP;              persistent D_sim_rain;          persistent sigma_X0_init; 
 persistent GP;               persistent inv_K_xx_val;        persistent u_prev;
 persistent Hp;               persistent Z_train_subset;      persistent Y_train_subset;
-persistent M;                persistent Nx 
+persistent M;                persistent Nx;                  persistent A;
+persistent B;                persistent E;                   persistent c3;
+persistent c4;
+
 
 if isempty(lam_g)                % get persistent values from workspace
     lam_g = evalin('base','lam_g');
@@ -23,6 +26,11 @@ if isempty(lam_g)                % get persistent values from workspace
     u_prev = [0;0];
     Nx = evalin('base','Nx');
     period = evalin('base','period');
+    A = evalin('base','A');
+    B = evalin('base','B');
+    E = evalin('base','E');
+    c3 = evalin('base','c3');
+    c4 = evalin('base','c4');
 end
 
 dT = 1/6;                        % Sample time in minutes             
@@ -45,9 +53,6 @@ X0 = X0/100;
 
 tic
 % openloop GP-MPC
-%     [U_opt_Hp,mu_X_opt,sigma_X_opt,lam_g,x_init] = ...
-%      OCP(X0,disturbance,sigma_X0,Z_train_subset,Y_train_subset,GP.sigma_f,GP.sigma_L,lam_g,x_init,reference,inv_K_xx_val,u_prev);
- 
 [U_opt_Hp, mu_X_opt_Hp, sigma_X_opt_Hp, lam_g, x_init, mu_p_opt, XI_opt_Hp, EPS_opt_Hp, dU_opt_Hp] = ...
     OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP)
 toc
@@ -65,5 +70,11 @@ eps_sol = full(EPS_opt_Hp(:,1));
 inv_K_xx_val = K_xx_builder(Z_train_subset,GP,Nx,M);
 
 output = [u_sol];
+
+% Learn new points
+% if mod(i,2) == 0   % learn every 2nd datapoint 
+%     GP.z_train = [GP.z_train, [X0; u_sol; disturbance(:,1); Time(i)]];
+%     GP.y_train = [GP.y_train, full(mu_X_opt_Hp(:,2)) - (A*X0 + B*u_sol + E*disturbance(:,1) + [0;0;c3;c4])];
+% end
 
 end
