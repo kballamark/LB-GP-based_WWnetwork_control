@@ -4,10 +4,13 @@
 % problem and loading time series and parameters.
 % """
 
+clear all; clc;
+
 addpath('.\control');
 addpath('.\parameters');
+addpath('.\time series');
 
-%% Dimension properties
+%% ============================================ Dimension properties =============================
 Nxt = 2;                            % number of tank states
 Nxp = 2;                            % number of pipe states 
 Nx = Nxt + Nxp;                     % all states
@@ -17,17 +20,19 @@ ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
 M  = 60;                            % Number of points selected for GP prediction
 
-%% Load parameters
+%% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
 load('.\parameters\nominal\c3','c3');           % pipe parameters
-load('.\parameters\test\nominal','c4'); 
+load('.\parameters\nominal\c4','c4'); 
+load('.\parameters\nominal\b31','b31'); 
+load('.\parameters\nominal\b41','b41'); 
 GP = load('.\parameters\GP_parameters.mat');    % GP hyperparameters
 
-%% Load time series
-load('D_sim')                       % full combined WW + rain time series for generating disturbance
-load('D_sim_rain')                  % rain forecast for predicting in control
+%% =============================================== Time series ===================================
+load('time series\disturbance forecast\D_sim')                       % full combined WW + rain time series for generating disturbance
+load('time series\disturbance forecast\D_sim_rain')                  % rain forecast for predicting in control
 
-%% Constraint values
+%% ============================================== Constraint values ==============================
 % Input constraints                 % UNIT:[l/min]  
 u1_on  = 6.5;                       % 6.5                                          
 u1_off = 3.5;                       % 3.5  
@@ -47,7 +52,7 @@ min_t1_op = 4;
 max_t2_op = 5.2;
 min_t2_op = 4.5;
 
-%% MPC specs
+%% ========================================= Control specifications =============================
 t_resample = 20;                    % Resample raw data - conversion between lab sampling/MPC time steps
 Hp = 20;                            % 
 dt_original = 0.5;                  % In lab we sample with dt = 0.5 [s]
@@ -68,5 +73,21 @@ K_xx_builder;                       % build initial K_xx from historic MxM train
 
 GP_MPC_builder;                     % Build symbolic optimization problem
 
+period = 115;                       % period of 1 Day in t_resample
+t = 1:150000;                       % long time sequence
+offset = 13;
+Time = mod(t-offset,period)./period;
+
+% QUICK FIX - Correct this !!!
+GP.y_train = [GP.y_train, GP.y_train(:,end)];
+
+GP.z_train(:,1:2:end) = [];
+GP.y_train(:,1:2:end) = [];
+%
+GP.z_train(:,1:2:end) = [];
+GP.y_train(:,1:2:end) = [];
+
 %% Stochastic disturbance forecast
 %D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
+
+disp('Initialization OK')

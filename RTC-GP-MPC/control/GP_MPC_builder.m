@@ -4,25 +4,23 @@ addpath('C:\Users\Krisztian\Documents\GitHub\LB-GP-based_WWnetwork_control\CasAd
 import casadi.*
 opti = casadi.Opti();                                       
 
-% Nominal dynamics
+%% ============================================ Nominal dynamics =============================
 % Tank dynamics
 At = [eye(Nxt), zeros(Nxp,Nxp)]; 
-Bt = -diag([dt_MPC/P_sim(4), dt_MPC/P_sim(4)]); 
-%Et = diag([dt_MPC/P_sim(5), dt_MPC/P_sim(5)]);
-Et = zeros(Nxt,ND);
+Bt = -diag([dt_MPC/Kt, dt_MPC/Kt]); 
+Et = zeros(Nxt,ND);                                         % no information about disturbance flows
 
 % Pipe dynamics
-a33 = 0;    a43 = 0;    a44 = 0;                            % not used: single flow to level mapping
-Ap = [a33, 0, 0, 0; 
-      a43, a44, 0, 0];
-Bp = [b31, 0; b41, 0];
+Ap = zeros(Nxp,Nx);
+Bp = [b31, 0; b41, 0];                                      % simple flow-to-level mapping
 Ep = zeros(Nxt,ND);
 
+% Merged tank + pipe dynamics
 A = [At; Ap];
 B = [Bt; Bp];
 E = [Et; Ep];
 
-Bd = eye(Nx);
+Bd = eye(Nx);                                               % Mapping matrix for GP to residual states
 
 %% ============================================ Constraint bounds =============================
 U_ub = [u1_on ; u2_on];                                     % Input bounds
@@ -43,32 +41,32 @@ b_x = [Xt_ub; Xp_ub; -Xt_lb; -Xp_lb];
 H_u = [eye(Nu); -eye(Nu)];                                  % input polytope
 b_u = [U_ub; -U_lb];
 
-H_XI = blkdiag(eye(Nxt),eye(Nxt));                         % polytope with bound slack 
-H_EPS = blkdiag(eye(Nx),eye(Nx));                         % polytope with bound slack 
+H_XI = blkdiag(eye(Nxt),eye(Nxt));                          % polytope with bound slack 
+H_EPS = blkdiag(eye(Nx),eye(Nx));                           % polytope with bound slack 
 
-H_s = [eye(Nxt); -eye(Nxt)]; 
+H_s = [eye(Nxt); -eye(Nxt)];                                % safety region polytope
 b_s = [Xt_ub_op; -Xt_lb_op];
 %% ============================================ Opti variables ===============================
-dU    = opti.variable(Nxt,Hp);                                                                   
+dU  = opti.variable(Nxt,Hp);                                % input change                                        
 XI  = opti.variable(2*Nxt,Hp);                              % safety slack
-EPS  = opti.variable(2*Nx,Hp);                             % overflow slack
+EPS = opti.variable(2*Nx,Hp);                               % overflow slack
 
 %% ============================================ Opti parameters ==============================
-D = opti.parameter(ND,Hp);                                  % disturbance trajectory [d1,d2,d3]
+D = opti.parameter(ND,Hp);                                  % disturbance trajectory [q1,q2,q3]
 
 mu_X0 = opti.parameter(Nx,1);                               % initial mu_x  
 u0 = opti.parameter(Nxt,1);                                 % previous input
 sigma_X0 = opti.parameter(Nx,Nx);                           % initial sigma
 
-Z_train  = opti.parameter(Nz,M);                            % Z state-input training input
+Z_train  = opti.parameter(Nz,M);                            % Z state-input-disturbance-time training input
 Y_train  = opti.parameter(Nx,M);                            % Y residual training output
 GP_sigma_F  = opti.parameter(Nx,1);                         % GP - sigma_f hyper parameter
 
 inv_K_xx = opti.parameter(M,M*Nx);                          % Covariance matrices for each 'a' output dimension
 
-T = opti.parameter(1,Hp);                               % time as the last dimension
+T = opti.parameter(1,Hp);                                   % time as the last dimension in the training set
 
-%% ============================================ Casadi MX variables ===============================
+%% =================================== extra Casadi MX variables ===============================
 mu_X = opti.variable(Nx,Hp+1);
 opti.subject_to(mu_X(:,1) == mu_X0);   
 sigma_X = opti.variable(Nx, (Hp+1)*Nx);
@@ -107,10 +105,7 @@ for k = 1:Hp
         grad_mu(:,a) = (-(GP.C{a}' * (GP.inv_sigma_L{a}.^2)*GP.C{a}) * (Z - Z_train)*(K_xz(:,a).*alpha(:,a)))';
     end
     grad_mu = grad_mu(1:Nx,1:Nx);
-    % Mean and covariance dynamics - uncertainty propagation
-    %mu_X(:,k+1) = A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d + [0;0;c3;c4];
-    %sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) = Bd*diag(sigma_d + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)';
-                            
+    % Mean and covariance dynamics - uncertainty propagation                           
     opti.subject_to(mu_X(:,k+1) == A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d + [0;0;c3;c4]);  
     opti.subject_to(sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) == Bd*diag(sigma_d  + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)');  
 progressbar(k/Hp) 
@@ -119,10 +114,9 @@ end
 %% =========================================== Objective function ==============================
 hV = Kt/dt_MPC;
 W_x = 10;
-W_u = [8,0; 0,4];
-%W_s = [20,0,0,0; 0,50,0,0; 0,0,4,0; 0,0,0,10];  
+W_u = [8,0; 0,4]; 
 W_s = [20,0,0,0; 0,40,0,0; 0,0,20,0; 0,0,0,40];  
-W_o = 1000;%100;
+W_o = 1000;
 
 objective_sigma = 0;
 for i = 1:Hp
@@ -131,7 +125,6 @@ end
 
 objective_all = W_x*hV*(0.0005*sumsqr(mu_X(1:Nxt,2:end)) + 0.0000001*objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);    
 opti.minimize(objective_all); 
-%W_x*hV*(0.0005*sumsqr(mu_X(:,2:end)) + objective_sigma)
 
 %% ============================================== Constraints ==================================
 for k = 2:Hp
@@ -152,8 +145,8 @@ end
 
 %% Optimization setup 
 opts = struct;
-opts.ipopt.print_level = 0;                                                    % print enabler to command line
-opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
+% opts.ipopt.print_level = 0;                                                    % print enabler to command line
+% opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
 opts.expand = true;                                                            % makes function evaluations faster
 opts.calc_lam_x = true;   
 opts.ipopt.max_iter = 100;                                                     % max solver iteration
@@ -166,3 +159,5 @@ OCP = opti.to_function('OCP',{mu_X0, D, sigma_X0, Z_train, Y_train, GP_sigma_F, 
     {'mu_x0','d','sigma_x0','z_train','y_train','GP_sigma_f','lam_g','init_x','inv_K_xx','u0','t'},...
     {'u_opt','mu_x_opt','sigma_x_opt','lam_g','init_x','mu_d','xi','eps','du'});
 toc
+
+disp('OCP builder OK')
