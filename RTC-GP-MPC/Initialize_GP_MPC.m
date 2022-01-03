@@ -9,6 +9,7 @@ clear all; clc;
 addpath('.\control');
 addpath('.\parameters');
 addpath('.\time series');
+addpath('.\tools');
 
 %% ============================================ Dimension properties =============================
 Nxt = 2;                            % number of tank states
@@ -62,14 +63,14 @@ dt_MPC = dt_original*t_resample/data_timeUnit;
 lam_g = 1;                          % warm start - Lagrange multiplier initializer
 x_init = 0.01;                      % state initializer
 
-sigma_X0 = zeros(Nx,Nx);            % zero initial variance
+sigma_X0_init = zeros(Nx,Nx);       % zero initial variance
 u_prev = [0;0];                     % init. integral action
 
 t_offset = 150;
 Z_train_subset = GP.z_train(:,t_offset:t_offset+M-1);   % Initialize the training subset randomly (first M entry) GP.z_train(:,randperm(length(GP.z_train(1,:)),M));%
 Y_train_subset = GP.y_train(:,t_offset:t_offset+M-1);   %GP.y_train(:,randperm(length(GP.y_train(1,:)),M));%
 
-K_xx_builder;                       % build initial K_xx from historic MxM training points
+[inv_K_xx_val,K_xx] = K_xx_builder(Z_train_subset,GP,Nx,M);     % build initial K_xx from historic MxM training points
 
 GP_MPC_builder;                     % Build symbolic optimization problem
 

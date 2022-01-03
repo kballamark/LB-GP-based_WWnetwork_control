@@ -9,6 +9,7 @@ clear all; clc;
 addpath('.\control');
 addpath('.\parameters');
 addpath('.\time series');
+addpath('.\tools');
 
 %% ============================================ Dimension properties =============================
 Nxt = 2;                            % number of tank states
@@ -28,11 +29,11 @@ load('.\parameters\nominal\b31','b31');
 load('.\parameters\nominal\b41','b41'); 
 GP = load('.\parameters\GP_parameters.mat');    % GP hyperparameters
 
-%% =============================================== Time series =============================
+%% =============================================== Time series ===================================
 load('time series\disturbance forecast\D_sim')                       % full combined WW + rain time series for generating disturbance
 load('time series\disturbance forecast\D_sim_rain')                  % rain forecast for predicting in control
 
-%% Constraint values
+%% ============================================== Constraint values ==============================
 % Input constraints                 % UNIT:[l/min]  
 u1_on  = 6.5;                       % 6.5                                          
 u1_off = 3.5;                       % 3.5  
@@ -52,7 +53,7 @@ min_t1_op = 4;
 max_t2_op = 5.2;
 min_t2_op = 4.5;
 
-%% MPC specs
+%% ========================================= Control specifications =============================
 t_resample = 20;                    % Resample raw data - conversion between lab sampling/MPC time steps
 Hp = 20;                            % 
 dt_original = 0.5;                  % In lab we sample with dt = 0.5 [s]
@@ -71,8 +72,23 @@ Y_train_subset = GP.y_train(:,t_offset:t_offset+M-1);   %GP.y_train(:,randperm(l
 
 K_xx_builder;                       % build initial K_xx from historic MxM training points
 
-%%
 GP_MPC_builder;                     % Build symbolic optimization problem
+
+period = 115;                       % period of 1 Day in t_resample
+t = 1:150000;                       % long time sequence
+offset = 13;
+Time = mod(t-offset,period)./period;
+
+% QUICK FIX - Correct this !!!
+GP.y_train = [GP.y_train, GP.y_train(:,end)];
+
+GP.z_train(:,1:2:end) = [];
+GP.y_train(:,1:2:end) = [];
+%
+GP.z_train(:,1:2:end) = [];
+GP.y_train(:,1:2:end) = [];
 
 %% Stochastic disturbance forecast
 %D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
+
+disp('Initialization OK')
