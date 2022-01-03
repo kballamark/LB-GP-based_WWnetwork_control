@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 40;                            % Number of points selected for GP prediction
+M  = 60;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
@@ -40,7 +40,7 @@ u1_off = 3.5;                       % 3.5
 u2_on  = 14;                        % 14  
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
-max_t1 = 7;       
+max_t1 = 6.8;       
 min_t1 = 3.8;             
 max_t2 = 6.5;     
 min_t2 = 4.3;
@@ -75,7 +75,7 @@ Y_train_subset = GP.y_train(:,t_offset:t_offset+M-1);   %GP.y_train(:,randperm(l
 GP_MPC_builder;                     % Build symbolic optimization problem
 
 period = 115;                       % period of 1 Day in t_resample
-t = 1:150000;                       % long time sequence
+t = 1:10000;                       % long time sequence
 offset = 13;
 Time = mod(t-offset,period)./period;
 

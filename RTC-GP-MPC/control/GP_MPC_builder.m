@@ -145,8 +145,8 @@ end
 
 %% Optimization setup 
 opts = struct;
-% opts.ipopt.print_level = 0;                                                    % print enabler to command line
-% opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
+opts.ipopt.print_level = 0;                                                    % print enabler to command line
+opts.print_time = false;                                                       % instead of using ipopt, use Casadi's KKT condition to calc. lam_x
 opts.expand = true;                                                            % makes function evaluations faster
 opts.calc_lam_x = true;   
 opts.ipopt.max_iter = 100;                                                     % max solver iteration

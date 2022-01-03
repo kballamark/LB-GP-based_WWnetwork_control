@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 60;                            % Number of points selected for GP prediction
+M  = 40;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
@@ -40,7 +40,7 @@ u1_off = 3.5;                       % 3.5
 u2_on  = 14;                        % 14  
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
-max_t1 = 7;       
+max_t1 = 6.8;       
 min_t1 = 3.8;             
 max_t2 = 6.5;     
 min_t2 = 4.3;
@@ -63,19 +63,19 @@ dt_MPC = dt_original*t_resample/data_timeUnit;
 lam_g = 1;                          % warm start - Lagrange multiplier initializer
 x_init = 0.01;                      % state initializer
 
-sigma_X0 = zeros(Nx,Nx);            % zero initial variance
+sigma_X0_init = zeros(Nx,Nx);       % zero initial variance
 u_prev = [0;0];                     % init. integral action
 
 t_offset = 150;
 Z_train_subset = GP.z_train(:,t_offset:t_offset+M-1);   % Initialize the training subset randomly (first M entry) GP.z_train(:,randperm(length(GP.z_train(1,:)),M));%
 Y_train_subset = GP.y_train(:,t_offset:t_offset+M-1);   %GP.y_train(:,randperm(length(GP.y_train(1,:)),M));%
 
-K_xx_builder;                       % build initial K_xx from historic MxM training points
+[inv_K_xx_val,K_xx] = K_xx_builder(Z_train_subset,GP,Nx,M);     % build initial K_xx from historic MxM training points
 
 GP_MPC_builder;                     % Build symbolic optimization problem
 
 period = 115;                       % period of 1 Day in t_resample
-t = 1:150000;                       % long time sequence
+t = 1:10000;                       % long time sequence
 offset = 13;
 Time = mod(t-offset,period)./period;
 

@@ -8,7 +8,7 @@ persistent GP;               persistent inv_K_xx_val;        persistent u_prev;
 persistent Hp;               persistent Z_train_subset;      persistent Y_train_subset;
 persistent M;                persistent Nx;                  persistent A;
 persistent B;                persistent E;                   persistent c3;
-persistent c4;
+persistent c4;               persistent Time;
 
 
 if isempty(lam_g)                % get persistent values from workspace
@@ -31,6 +31,7 @@ if isempty(lam_g)                % get persistent values from workspace
     E = evalin('base','E');
     c3 = evalin('base','c3');
     c4 = evalin('base','c4');
+    Time = evalin('base','Time');
 end
 
 dT = 1/6;                        % Sample time in minutes             
@@ -46,7 +47,9 @@ for i=0:1:Hp-1
 end
 
 % Time GP
-time_GP = mod(time-13,period)./period;
+start_time_GP = round(time/(dT*60*simulink_frequency)) + 1;
+time_GP = Time(start_time_GP:(start_time_GP + Hp - 1));
+
 
 % State measure 
 X0 = X0/100;
@@ -54,13 +57,13 @@ X0 = X0/100;
 tic
 % openloop GP-MPC
 [U_opt_Hp, mu_X_opt_Hp, sigma_X_opt_Hp, lam_g, x_init, mu_p_opt, XI_opt_Hp, EPS_opt_Hp, dU_opt_Hp] = ...
-    OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP)
+    OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP);
 toc
 
 % Solution
 u_sol = full(U_opt_Hp(:,1));
 u_prev = u_sol;
-Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance];
+Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance; time_GP];
 eps_sol = full(EPS_opt_Hp(:,1));
 
 % Subset of Data (SoD) point selection 
