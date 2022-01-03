@@ -127,7 +127,7 @@ if PlotType == 1
 end
 
 %%
-saveEnabler = 1;
+saveEnabler = 0;
 if saveEnabler == 1
     time = datestr(now, 'ddmmyy_HHMM');
     filename = sprintf('./Workspace/NumResults_%s.mat',time);

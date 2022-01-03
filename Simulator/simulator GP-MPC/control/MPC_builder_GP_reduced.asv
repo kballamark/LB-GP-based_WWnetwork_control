@@ -87,7 +87,7 @@ for k = 1:Hp
         temp_K_xz = casadi.MX(M,1);
         Z_C = GP.C{a}*(Z - Z_train);                          % pick testing, training dimensions
         for i = 1:M
-            temp_K_xz(i) =(GP_sigma_F(a)^2)*exp(-0.5*Z_C(:,i)' * (GP.inv_sigma_L{a}.^2) * Z_C(:,i));
+            opti.subject_to(temp_K_xz(i) == (GP_sigma_F(a)^2)*exp(-0.5*Z_C(:,i)' * (GP.inv_sigma_L{a}.^2) * Z_C(:,i)));
         end
         K_xz(:,a) = temp_K_xz;
         K_zz(:,a) = GP_sigma_F(a)^2;
