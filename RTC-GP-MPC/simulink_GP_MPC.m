@@ -20,8 +20,8 @@ if isempty(lam_g)                % get persistent values from workspace
     GP = evalin('base','GP');
     inv_K_xx_val = evalin('base','inv_K_xx_val');
     Hp = evalin('base','Hp');
-    Z_train_subset = evalin('base','z_train_subset');
-    Y_train_subset = evalin('base','y_train_subset');
+    Z_train_subset = evalin('base','Z_train_subset');
+    Y_train_subset = evalin('base','Y_train_subset');
     M = evalin('base','M');
     u_prev = [0;0];
     Nx = evalin('base','Nx');
