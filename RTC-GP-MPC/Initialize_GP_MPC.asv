@@ -64,9 +64,8 @@ t_offset = 150;
 Z_train_subset = GP.z_train(:,t_offset:t_offset+M-1);   % Initialize the training subset randomly (first M entry) GP.z_train(:,randperm(length(GP.z_train(1,:)),M));%
 Y_train_subset = GP.y_train(:,t_offset:t_offset+M-1);   %GP.y_train(:,randperm(length(GP.y_train(1,:)),M));%
 
-K_xx_builder;                       % build initial K_xx from historic MxM training points
+K_xx_builder;                                   % build initial K_xx from historic MxM training points
 
-GP_MPC_builder;                     % Build symbolic optimization problem
+%% Fixed disturbance forecast
 
-%% Stochastic disturbance forecast
-%D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
+D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
