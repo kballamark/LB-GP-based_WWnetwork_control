@@ -64,8 +64,8 @@ toc
 u_sol = full(U_opt_Hp(:,1));
 u_prev = u_sol;
 Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance; time_GP];
-eps_sol = full(EPS_opt_Hp(:,1));
-xi_sol = full(XI_opt_Hp(:,1));
+eps_sol = full(EPS_opt_Hp(:,2));
+xi_sol = full(XI_opt_Hp(:,2));
 
 % Subset of Data (SoD) point selection 
 [Z_train_subset, Y_train_subset] = reduce_M(Z_pred,GP.z_train,GP.y_train,Hp,M);
@@ -79,6 +79,7 @@ output = [u_sol; eps_sol; xi_sol];
 if mod(round(time),2) == 0   % learn every 2nd datapoint 
     GP.z_train = [GP.z_train, [X0; u_sol; disturbance(:,1); Time(start_time_GP)]];
     GP.y_train = [GP.y_train, full(mu_X_opt_Hp(:,2)) - (A*X0 + B*u_sol + E*disturbance(:,1) + [0;0;c3;c4])];
+    disp('Learn')
 end
 
 end
