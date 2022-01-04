@@ -65,6 +65,7 @@ u_sol = full(U_opt_Hp(:,1));
 u_prev = u_sol;
 Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance; time_GP];
 eps_sol = full(EPS_opt_Hp(:,1));
+xi_sol = full(XI_opt_Hp(:,1));
 
 % Subset of Data (SoD) point selection 
 [Z_train_subset, Y_train_subset] = reduce_M(Z_pred,GP.z_train,GP.y_train,Hp,M);
@@ -72,7 +73,7 @@ eps_sol = full(EPS_opt_Hp(:,1));
 % Pre-calculate K_xx and inv_K_xx
 inv_K_xx_val = K_xx_builder(Z_train_subset,GP,Nx,M);
 
-output = [u_sol];
+output = [u_sol; eps_sol; xi_sol];
 
 % Learn new points
 if mod(round(time),2) == 0   % learn every 2nd datapoint 

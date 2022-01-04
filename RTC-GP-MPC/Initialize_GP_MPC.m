@@ -40,7 +40,7 @@ u1_off = 3.5;                       % 3.5
 u2_on  = 14;                        % 14  
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
-max_t1 = 6.7;                       % 6.9    
+max_t1 = 6.8;                       % 6.9    
 min_t1 = 3.8;             
 max_t2 = 6.2;     
 min_t2 = 4.3;
@@ -91,7 +91,7 @@ GP.y_train(:,1:2:end) = [];
 %% Stochastic disturbance forecast
 %D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
 
-D_sim(:,1:150) = [];
-D_sim_rain(:,1:150) = [];
+D_sim(:,1:150*20) = [];
+D_sim_rain(:,1:150*20) = [];
 
 disp('Initialization OK')
