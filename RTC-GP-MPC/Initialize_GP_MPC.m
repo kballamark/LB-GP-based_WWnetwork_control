@@ -91,4 +91,7 @@ GP.y_train(:,1:2:end) = [];
 %% Stochastic disturbance forecast
 %D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
 
+D_sim(:,1:150) = [];
+D_sim_rain(:,1:150) = [];
+
 disp('Initialization OK')
