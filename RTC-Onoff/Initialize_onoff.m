@@ -12,9 +12,9 @@ ND = 3;                             % number of disturbances
 %% Properties - controller
 % Tank constraints
 max_t1 = 6.8;           % 6.7 physical maximum    
-min_t1 = 3.6;             % 6.7 physical maximum 
+min_t1 = 3.8;             % 6.7 physical maximum 
 max_t2 = 6.1;           %6.1 max?      
-min_t2 = 3.9;
+min_t2 = 4.3;
 
 % Pipe constraints
 h_p_max = [0.3;0.3;0.3;0.3];
