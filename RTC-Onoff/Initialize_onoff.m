@@ -44,5 +44,6 @@ load('time series\D_sim.mat');
 input1 = u1_on;
 input2 = u2_on;
 
-
+%% cut beginning of experiment
+D_sim(:,1:2500*20) = [];
 
