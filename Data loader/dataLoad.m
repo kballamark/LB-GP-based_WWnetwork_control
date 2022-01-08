@@ -25,7 +25,7 @@ labRes.Data(1:end-1,6) = (2/10^6)*labRes.Data(1,10)*(labRes.Data(2:end,7) - labR
  
 %% ================================================ Prepare data ==============================================                                                                   % ~3.5 [h] long measurement data
 startData = 2;                                                                  % the first data point is corrupted
-t_resample = 20;                                                                % Resample raw data
+t_resample = 10;                                                                % Resample raw data (original is 20)
 endData = size(labRes.Data,1);
 % state
 x(1,:) = labRes.Data(startData:t_resample:endData-1,1)'/100;                    % [dm]
@@ -66,7 +66,6 @@ min_t1_op = 4;
 max_t2_op = 5.2;
 min_t2_op = 4.5;
 
-
 plotEnable = 1;
 if plotEnable == 1
 figure
@@ -89,6 +88,14 @@ xlim([0, length(d)]);
 ax(3) = subplot(3,2,3);
 plot(x(1,:)','red','LineWidth',0.5)
 hold on
+yline(min_t1,'black-','Min');
+hold on
+yline(max_t1,'black-','Max');
+hold on
+yline(min_t1_op,'blue--','LineWidth',2);
+hold on
+yline(max_t1_op,'blue--','LineWidth',2);
+
 ylabel('Level','interpreter','latex');
 xlabel('Time','interpreter','latex');
 title('$h_{t_1}$','interpreter','latex')
@@ -97,6 +104,14 @@ xlim([0, length(d)]);
 
 ax(4) = subplot(3,2,4);
 plot(x(2,:)','red','LineWidth',0.5)
+hold on
+yline(min_t2,'black-','Min');
+hold on
+yline(max_t2,'black-','Max');
+hold on
+yline(min_t2_op,'blue--','LineWidth',2);
+hold on
+yline(max_t2_op,'blue--','LineWidth',2);
 ylabel('Level','interpreter','latex');
 xlabel('Time','interpreter','latex');
 title('$h_{t_2}$','interpreter','latex')
@@ -105,6 +120,10 @@ xlim([0, length(d)]);
 
 ax(5) = subplot(3,2,5);
 plot(u(1,:)','blue','LineWidth',0.5)
+hold on
+yline(u1_off,'red--','Min','LineWidth',1.5);
+hold on
+yline(u1_on,'red--','Max','LineWidth',1.5);
 ylabel('Flow','interpreter','latex');
 xlabel('Time','interpreter','latex');
 title('$Q_{t_1}$','interpreter','latex')
@@ -112,7 +131,11 @@ grid on
 xlim([0, length(d)]);
 
 ax(6) = subplot(3,2,6);
-plot(u(2,:)','blue','LineWidth',0.5)
+plot(smooth(u(2,:))','blue','LineWidth',0.5)
+hold on
+yline(u2_off,'red--','Min','LineWidth',1.5);
+hold on
+yline(u2_on,'red--','Max','LineWidth',1.5);
 ylabel('Flow','interpreter','latex');
 xlabel('Time','interpreter','latex');
 title('$Q_{t_1}$','interpreter','latex')
