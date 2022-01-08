@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_08_01_2022_v1');
+load('data/DataSave_Onoff_2500_to_5800');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -25,7 +25,7 @@ labRes.Data(1:end-1,6) = (2/10^6)*labRes.Data(1,10)*(labRes.Data(2:end,7) - labR
  
 %% ================================================ Prepare data ==============================================                                                                   % ~3.5 [h] long measurement data
 startData = 2;                                                                  % the first data point is corrupted
-t_resample = 10;                                                                % Resample raw data (original is 20)
+t_resample = 20;                                                                % Resample raw data (original is 20)
 endData = size(labRes.Data,1);
 % state
 x(1,:) = labRes.Data(startData:t_resample:endData-1,1)'/100;                    % [dm]
@@ -173,7 +173,22 @@ xlabel('Time','interpreter','latex');
 title('Disturbance flow','interpreter','latex')
 end
 
-%%
+%% Save dataSets
+% 
+% x = x(:,1:2500);
+% u = u(:,1:2500);
+% d = d(:,1:2500);
+% 
+% save('save_sys_ID/x_part1','x')
+% save('save_sys_ID/u_part1','u')
+% save('save_sys_ID/d_part1','d')
 
+% x = x(:,1:2800);
+% u = u(:,1:2800);
+% d = d(:,1:2800);
+% 
+% save('save_sys_ID/x_part2','x')
+% save('save_sys_ID/u_part2','u')
+% save('save_sys_ID/d_part2','d')
 
 

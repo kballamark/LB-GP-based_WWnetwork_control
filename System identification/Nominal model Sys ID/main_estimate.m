@@ -2,47 +2,34 @@ clear all;
 clear path;
 clc;  
 %% ================================================ Prepare data ==============================================
+part = 1;   
+    load('.\data\onoff\x_part1')
+    load('.\data\onoff\u_part1')
+    load('.\data\onoff\d_part1')
+    load('.\data\onoff\d_r_part1')
+    
+x_temp   = [x];
+u_temp   = [u];
+d_r_temp = [d_r];
+    
+part = 2;    
+    load('.\data\onoff\x_part2')
+    load('.\data\onoff\u_part2')
+    load('.\data\onoff\d_part2')
+    load('.\data\onoff\d_r_part2')
 
-identType = 3;
-if identType == 1
-    % closed loop MPC data
-    load('.\data\x')
-    load('.\data\u')
-    load('.\data\d')
-    load('.\data\d_r')
-    load('.\data\d_w')
-    x = x(:,1:end);
-    u = u(:,1:end);
-    d = d(:,1:end);                                                                 % Load simulation data 
-    % onoff data
-elseif identType == 2
-    load('.\data\onoff\x')
-    load('.\data\onoff\u')
-    load('.\data\onoff\d')
-    load('.\data\onoff\d_r')
-    x = x(:,1:end);
-    u = u(:,1:end);
-    d = d(:,1:end); 
-    % onoff data with random input
-elseif identType == 3
-    load('.\data\random_inputs\x')
-    load('.\data\random_inputs\u')
-    load('.\data\random_inputs\d')
-    load('.\data\random_inputs\d_r')
-    x = x(:,1:end);
-    u = u(:,1:end);
-    d = d(:,1:end); 
-end
+x   = [x_temp, x];
+u   = [u_temp, u];
+d_r = [d_r_temp, d_r];                                                        
 
 %%
-startData = 100;
-endData_sysID = size(x,2)-startData;      
 Nx = 2;
+N_train = 5300;
 
-x3 = x(3,startData:endData_sysID);
-x4 = x(4,startData:endData_sysID);
-u1 = u(1,startData:endData_sysID);
-u2 = u(2,startData:endData_sysID); 
+x3 = filloutliers(x(3,1:N_train),'nearest','movmean',200);
+x4 = smooth(filloutliers(x(4,1:N_train),'nearest','movmean',200))';
+u1 = filloutliers(u(1,1:N_train),'nearest','mean');
+u2 = filloutliers(u(2,1:N_train),'nearest','mean'); 
 
 %% ============================================ Idata object ================================================ 
 Ts_data = 1;                                                                    % [10s] in the lab. Dataset is already resampled with t_step = 20 
@@ -57,9 +44,9 @@ modelName = 'model_disc';
 Ts_model = 1;                                                                   % 0 - continuous model, 1,2,.. - discrete model 
 order = [size(output,2) size(input,2) Nx];                                      % [Ny Nu Nx] order
 
-a = [0.2, 0.1, 0.3];
-b = [0.007, 0.005];
-c = [0.001, 0.001];
+a = [0, 0, 0];
+b = [0.01, 0.02];
+c = [0.1, 0.05];
 params = [a, b, c];
 
 initStates = 0.01*ones(Nx, 1);                                                  % assume 0 flow at t0
@@ -125,27 +112,18 @@ EstPlotter;
 
 %% Save parameters
 
-a33 = estParams(1);
-a43 = estParams(2);
-a44 = estParams(3);
+% a33 = estParams(1);
+% a43 = estParams(2);
+% a44 = estParams(3);
 b31 = estParams(4);
 b41 = estParams(5);
 c3 = estParams(6);
 c4 = estParams(7);
-
-save('.\parameters\a33','a33');    
-save('.\parameters\a43','a43');    
-save('.\parameters\a44','a44');  
+% 
+% save('.\parameters\a33','a33');    
+% save('.\parameters\a43','a43');    
+% save('.\parameters\a44','a44');  
 save('.\parameters\b31','b31');    
 save('.\parameters\b41','b41');  
 save('.\parameters\c3','c3');    
 save('.\parameters\c4','c4');  
-
-%% Sanity check
-
-test = [0,0,a33, 0; 0,0,a43, a44]*[x(1,:);x(2,:); x(3,:); x(4,:)] + [b31, 0; b41, 0]*u;
-
-figure
-plot(test(1,:))
-figure
-plot(test(2,:))
