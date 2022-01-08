@@ -1,14 +1,28 @@
 clear all;
 clc
 %% ================================================ Setup system ==============================================      
+% load time series
 load('.\data\onoff\x_full')
 load('.\data\onoff\u_full')
-load('.\data\onoff\d_part2')
-load('.\data\onoff\d_r_part2')
+load('.\data\onoff\d_r_full')
+
+% load nominal parameters
+load('.\parameters\nominal\b31')
+load('.\parameters\nominal\b41')
+load('.\parameters\nominal\c3')
+load('.\parameters\nominal\c4')
+load('.\parameters\nominal\Kt')
+
 %%
 
 % discard p2 and p3 states from dataset
 x = [x(1,:); x(2,:); x(3,:); x(6,:)];
+
+% filtering
+x(1,:) = filloutliers(x(3,:),'nearest','movmean',200);
+x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
+x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
+x(4,:) = (filloutliers(x(4,:),'nearest','movmean',200))';
 
 % change the combined disturbance to the separated rain disturbance
 for i = 1:size(d_r,2)
@@ -50,6 +64,8 @@ if d_rain_enabler == 1
     d = d_r;
 end
 
+d(:,end) = [];
+
 % Nominal dynamics - combined
 A = [At; Ap];
 B = [Bt; Bp];
@@ -58,18 +74,18 @@ f = A*x(:,1:end-1) + B*u(:,1:end-1) + E*d(:,1:end-1) + [0;0;c3;c4];
 
 % Build residuals
 Bd = eye(Nxt + Nxp);                                                            % mapping matrix
-y_unfiltered = pinv(Bd) * (x(:,2:end) - f);                                     % residuals (output set)
+y = pinv(Bd) * (x(:,2:end) - f);                                     % residuals (output set)
 
-% Remove outliers in last pipe state
-y_temp1(4,:) = filloutliers(y_unfiltered(4,:),'previous','mean');
-y_temp2(4,:) = filloutliers(y_temp1(4,:),'previous','mean');
-y_unfiltered(4,:) = y_temp2(4,:);
-for i = 1:Nx
-    y(i,:) = (y_unfiltered(i,:));                                               % remove outliers 
-end
+% % Remove outliers in last pipe state
+% y_temp1(4,:) = filloutliers(y_temp(4,:),'previous','mean');
+% y_temp2(4,:) = filloutliers(y_temp1(4,:),'previous','mean');
+% y_temp(4,:) = y_temp2(4,:);
+% for i = 1:Nx
+%     y(i,:) = (y_temp(i,:));                                               % remove outliers 
+% end
 
-y(1:Nxt,:) = y(1:Nxt,:) + 0.005*randn(Nxt,size(y,2));                           % Add noise to tank residuals
-y(Nxt+1:Nx,:) = y(Nxt+1:Nx,:) + 0.00075*randn(Nxp,size(y,2));                   % Add noise to pipe residuals
+y(1:Nxt,:) = y(1:Nxt,:); %+ 0.005*randn(Nxt,size(y,2));                           % Add noise to tank residuals
+y(Nxt+1:Nx,:) = y(Nxt+1:Nx,:); %+ 0.00075*randn(Nxp,size(y,2));                   % Add noise to pipe residuals
 
 % Create time input
 period = 115;                                                                   % 1 day in steps: 115*
