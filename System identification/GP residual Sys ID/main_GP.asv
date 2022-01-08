@@ -3,7 +3,8 @@ clc
 %% ================================================ Setup system ==============================================      
 load('.\data\onoff\x_full')
 load('.\data\onoff\u_full')
-load('.\data\onoff\d_r_full')
+load('.\data\onoff\d_part2')
+load('.\data\onoff\d_r_part2')
 %%
 
 % discard p2 and p3 states from dataset
