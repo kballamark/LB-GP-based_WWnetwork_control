@@ -95,7 +95,7 @@ D_sim(:,1:150*20) = [];
 D_sim_rain(:,1:150*20) = [];
 
 % test
-D_sim(:,1:424*20) = [];
-D_sim_rain(:,1:424*20) = [];
+D_sim(:,1:1350*20) = [];
+D_sim_rain(:,1:1350*20) = [];
 
 disp('Initialization OK')
