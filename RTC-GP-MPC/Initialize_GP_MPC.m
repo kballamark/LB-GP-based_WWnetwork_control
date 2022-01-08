@@ -41,15 +41,15 @@ u2_on  = 14;                        % 14
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
-min_t1 = 3.8;             
-max_t2 = 6.2;     
+min_t1 = 4.2;             
+max_t2 = 6.1;     
 min_t2 = 4.3;
 % Pipe constraints                  % UNIT:[dm] 
 h_p_max = 0.4;
 h_p_min = 0.00001;
 % Tank safety region
-max_t1_op = 5.2;                    % UNIT:[dm] 
-min_t1_op = 4;
+max_t1_op = 5.6;                    % UNIT:[dm] 
+min_t1_op = 4.4;
 max_t2_op = 5.2;
 min_t2_op = 4.5;
 
