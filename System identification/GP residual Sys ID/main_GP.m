@@ -196,7 +196,7 @@ for i = 1:Nx
 end
 
 %% Save hyperparameters
-save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
+%save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
 
 %% Test on validation data
 
