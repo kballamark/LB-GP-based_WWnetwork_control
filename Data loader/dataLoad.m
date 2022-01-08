@@ -50,7 +50,79 @@ Kt = labRes.Data(1,10)*conv_mm2Todm2;
 %plot(y)
 
 %% 
+% Input constraints                 % UNIT:[l/min]  
+u1_on  = 6.5;                       % 6.5                                          
+u1_off = 3.5;                       % 3.5  
+u2_on  = 14;                        % 14  
+u2_off = 5.4;                       % 5.4       
+% Tank constraints                  % UNIT:[dm] 
+max_t1 = 6.8;                       % 6.9    
+min_t1 = 3.8;             
+max_t2 = 6.2;     
+min_t2 = 4.3;
+% Tank safety region
+max_t1_op = 5.2;                    % UNIT:[dm] 
+min_t1_op = 4;
+max_t2_op = 5.2;
+min_t2_op = 4.5;
+
+
 plotEnable = 1;
+if plotEnable == 1
+figure
+ax(1) = subplot(3,2,1);
+plot(d(1,:)','black','LineWidth',0.5)
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$q_{t_1}$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+ax(2) = subplot(3,2,2);
+plot(d(3,:)','black','LineWidth',0.5)
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$q_p$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+ax(3) = subplot(3,2,3);
+plot(x(1,:)','red','LineWidth',0.5)
+hold on
+ylabel('Level','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$h_{t_1}$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+ax(4) = subplot(3,2,4);
+plot(x(2,:)','red','LineWidth',0.5)
+ylabel('Level','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$h_{t_2}$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+ax(5) = subplot(3,2,5);
+plot(u(1,:)','blue','LineWidth',0.5)
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$Q_{t_1}$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+ax(6) = subplot(3,2,6);
+plot(u(2,:)','blue','LineWidth',0.5)
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('$Q_{t_1}$','interpreter','latex')
+grid on
+xlim([0, length(d)]);
+
+linkaxes(ax,'x');
+end
+%%
+plotEnable = 0;
 if plotEnable == 1
 figure
 subplot(2,1,1)
