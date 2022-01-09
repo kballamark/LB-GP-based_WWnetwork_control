@@ -21,6 +21,6 @@ if find(size(upper)==(max(size(upper))))<2
 upper=upper'; end
 
 h = fill([x fliplr(x)],[upper fliplr(lower)],colour);
-set(h,'facealpha',.2,'LineStyle','none','LineWidth',0.1)
+set(h,'facealpha',.2,'LineStyle','-','LineWidth',)
 
 

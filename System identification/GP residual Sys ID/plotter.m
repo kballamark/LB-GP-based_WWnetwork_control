@@ -21,7 +21,7 @@ end
 %% 1-step predictions
 oneStepPredred = 1;
 if oneStepPredred == 1
-for i = 3:4%1:Nx
+for i = 1:Nx
 num_gp = i;                                                                     % gp selection
 gp1 = gps{num_gp};
 np = size(x,2)-n-1;                                                             % number of predictions
@@ -29,13 +29,14 @@ np = size(x,2)-n-1;                                                             
 figure
 subplot(2,1,1)
 respred1 = resubPredict(gp1);
-plot(y(num_gp,offset:offset+n),'.');
+plot(y(num_gp,offset:offset+n),'blue.');
 hold on 
-plot(respred1)
+plot(respred1,'red','Linewidth',1.2)
 title('1 step prediction - training data','interpreter','latex')
 leg = legend('Data','Model');
 set(leg,'Interpreter','latex');
 ylabel('Level [$dm$]','interpreter','latex')
+grid on
 % 
 subplot(2,1,2)
 [respred1,~,ress_ci] = predict(gp1, (C{i}*z(:,n:n+np))');
@@ -49,6 +50,7 @@ leg = legend('Data','Model');
 set(leg,'Interpreter','latex');
 xlabel('Time [10 s]','interpreter','latex')
 ylabel('Level [$dm$]','interpreter','latex')
+grid on
 end
 end
 

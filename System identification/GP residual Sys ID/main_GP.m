@@ -75,6 +75,10 @@ f = A*x(:,1:end-1) + B*u(:,1:end-1) + E*d(:,1:end-1) + [0;0;c3;c4];
 Bd = eye(Nxt + Nxp);                                                            % mapping matrix
 y = pinv(Bd) * (x(:,2:end) - f);                                     % residuals (output set)
 
+% quick fixes
+y(2,:) = filloutliers(y(2,:),'previous','mean');
+y(1,2500) = 0;
+
 % % Remove outliers in last pipe state
 % y_temp1(4,:) = filloutliers(y_temp(4,:),'previous','mean');
 % y_temp2(4,:) = filloutliers(y_temp1(4,:),'previous','mean');
@@ -132,7 +136,7 @@ gps = cell(Nx,1);                                                               
 n = 2500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
-offset = 1;%10 ;%+ 1613;
+offset = 30;%10 ;%+ 1613;
 
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
@@ -149,7 +153,7 @@ toc
 plotter;
 
 %% ============================================= Save GP object ==============================================  
-%save('.\GPs\gps_onoff')
+save('.\GPs\gps_onoff')
 %save('.\GPs_short\gps')
 %load('.\GPs\gps_onoff')
 
