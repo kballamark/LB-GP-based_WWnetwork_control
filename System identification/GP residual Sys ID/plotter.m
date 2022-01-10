@@ -37,20 +37,22 @@ leg = legend('Data','Model');
 set(leg,'Interpreter','latex');
 ylabel('Level [$dm$]','interpreter','latex')
 grid on
+xlim([1,n])
 % 
 subplot(2,1,2)
 [respred1,~,ress_ci] = predict(gp1, (C{i}*z(:,n:n+np))');
-plot(y(num_gp,n:(n+np)),'.');
+plot(y(num_gp,n:(n+np)),'blue.');
 hold on 
-plot(respred1)
+plot(respred1,'red','LineWidth',1.2)
 hold on
 ciplot(ress_ci(:,1),ress_ci(:,2)) 
 title('1 step prediction - validation data','interpreter','latex')
-leg = legend('Data','Model');
+leg = legend('Data','Model','Confidence interval');
 set(leg,'Interpreter','latex');
 xlabel('Time [10 s]','interpreter','latex')
 ylabel('Level [$dm$]','interpreter','latex')
 grid on
+xlim([1,n])
 end
 end
 

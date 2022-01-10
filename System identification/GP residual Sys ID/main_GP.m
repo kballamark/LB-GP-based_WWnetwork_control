@@ -23,7 +23,7 @@ x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(4,:) = (filloutliers(x(4,:),'nearest','movmean',200))';
 
-% change the combined disturbance to the separated rain disturbance
+% remove negative values from d_r
 for i = 1:size(d_r,2)
     if d_r(1,i) <= 0.15
         d_r(1,i) = 0;
@@ -44,25 +44,18 @@ Nx = Nxt + Nxp;                                                                 
 % Nominal dynamics - tanks
 At = [(eye(Nxt)), zeros(Nxp,Nxp)]; 
 Bt = -diag([dt/Kt, dt/Kt]); 
-Et = [diag([dt/Kt dt/Kt]), zeros(Nxt,1)];
+Et = zeros(2,3);
 
 % Nominal dynamics - pipes
 a33 = 0;                                                                        % not used: single flow to level mapping
 a43 = 0;
 a44 = 0;
-% b31 = 0;
-% b41 = 0;
 Ap = [0,0,a33, 0; 
       0,0,a43, a44];
 Bp = [b31, 0; b41, 0];
 Ep = zeros(2,3);
 
-d_rain_enabler = 1;                                                             % if true, only rain is the disturbance
-if d_rain_enabler == 1
-    Et = zeros(2,3);
-    d = d_r;
-end
-
+d = d_r;
 d(:,end) = [];
 
 % Nominal dynamics - combined
@@ -73,20 +66,14 @@ f = A*x(:,1:end-1) + B*u(:,1:end-1) + E*d(:,1:end-1) + [0;0;c3;c4];
 
 % Build residuals
 Bd = eye(Nxt + Nxp);                                                            % mapping matrix
-y = pinv(Bd) * (x(:,2:end) - f);                                     % residuals (output set)
+y = pinv(Bd) * (x(:,2:end) - f);                                                % residuals (output set)
 
-% quick fixes
+% Remove outlier from residuals
+y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(1,2500) = 0;
 
-% % Remove outliers in last pipe state
-% y_temp1(4,:) = filloutliers(y_temp(4,:),'previous','mean');
-% y_temp2(4,:) = filloutliers(y_temp1(4,:),'previous','mean');
-% y_temp(4,:) = y_temp2(4,:);
-% for i = 1:Nx
-%     y(i,:) = (y_temp(i,:));                                               % remove outliers 
-% end
-
+% add noise (only on simulation data)
 y(1:Nxt,:) = y(1:Nxt,:); %+ 0.005*randn(Nxt,size(y,2));                           % Add noise to tank residuals
 y(Nxt+1:Nx,:) = y(Nxt+1:Nx,:); %+ 0.00075*randn(Nxp,size(y,2));                   % Add noise to pipe residuals
 
@@ -99,8 +86,6 @@ z = [x; u; d; t_mod];                                                           
 
 % Make mapping of training set for each GP
 training_set_mapping;
-
-num_x = [0,1,1,2];                                                              % number of state regressor in residuals
 
 % Sanity check - residuals 
 plotEnabler = 1;
