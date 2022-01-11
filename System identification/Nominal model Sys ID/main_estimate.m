@@ -4,7 +4,8 @@ clc;
 %% ================================================ Prepare data ==============================================
 part = 1;   
     load('.\data\onoff\x_part1')
-    load('.\data\onoff\u_part1')
+    %load('.\data\onoff\u_part1')
+    load('.\data\onoff\u_ref_part1')
     load('.\data\onoff\d_part1')
     load('.\data\onoff\d_r_part1')
     
@@ -14,7 +15,8 @@ d_r_temp = [d_r];
     
 part = 2;    
     load('.\data\onoff\x_part2')
-    load('.\data\onoff\u_part2')
+    %load('.\data\onoff\u_part2')
+    load('.\data\onoff\u_ref_part2')
     load('.\data\onoff\d_part2')
     load('.\data\onoff\d_r_part2')
 
