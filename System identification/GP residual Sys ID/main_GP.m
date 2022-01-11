@@ -166,16 +166,16 @@ for i = 1:Nx
 end
 
 %% Save hyperparameters
-save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
+%save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
 
 %% Test on validation data
 
-num_test = 4;
+num_test = 1;
 gp1 = gps{num_test};
 [respred1,~,ress_ci] = predict(gp1, (C{num_test}*z(:,n:n+np))');
 
 figure
-plot(x(num_test,999:end))
+plot(x(num_test,1:end))
 hold on
 plot(respred1' + f(num_test,999:end))
 %  
