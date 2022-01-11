@@ -123,7 +123,7 @@ for i = 1:Hp
     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
 end
 
-objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + 10*sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);    
+objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,1:end)) + objective_sigma) + 10*sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);    
 opti.minimize(objective_all); 
 
 %% ============================================== Constraints ==================================
