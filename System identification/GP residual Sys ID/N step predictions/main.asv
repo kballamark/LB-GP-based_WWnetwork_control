@@ -8,13 +8,13 @@ clear residual_ci_N
 
 %% Np long prediction
 
-num_x = [1,2,1,2];                                                              % number of state regressor in residuals
+num_x = [0,1,1,2];                                                              % number of state regressor in residuals
 N_pred = 20;
 k = 1;
 bias = [0;0;c3;c4];
 
 start_n = 2502;%7900;
-stop_n = 4000;%8600;
+stop_n = 5000;%8600;
    
 for n = start_n:stop_n
 

@@ -7,19 +7,11 @@
 C = cell(Nx,1);                                                     % training set for each GP
 nz = size(z,1);
 
-% % Combined WW + Rain
-% dim_select_C1 = [5,7]; % [1,5,7]                                    % tank 1
-% dim_select_C2 = [4,6]; % [2,4,6]                                    % tank 2
-% dim_select_C3 = [5];   % [3,5]                                      % pipe 1
-% dim_select_C4 = [3,9]; % [3,4,9]                                    % pipe 2
-
 % Separated WW & Rain
-if d_rain_enabler == 1
-    dim_select_C1 = [1,7,10]; % [1,5,7,10]                            % tank 1
-    dim_select_C2 = [2,4,6]; % [2,4,6]                                % tank 2
+    dim_select_C1 = [7,10]; % [1,5,7,10]                            % tank 1
+    dim_select_C2 = [4,6]; % [2,4,6]                                % tank 2
     dim_select_C3 = [3,5];   % [3,5]                                % pipe 1
-    dim_select_C4 = [3,4,5,10]; % [3,4,9,10]                          % pipe 2  % exclude 9 only because it is zero,i.e., there is no rain
-end
+    dim_select_C4 = [3,4,10];       %[3,4,5,10];                    % pipe 2  % exclude 9 only because it is zero,i.e., there is no rain
 
 % Mapping matrix for output 1: 
 C{1} = zeros(size(dim_select_C1,2),nz);
