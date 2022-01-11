@@ -121,7 +121,7 @@ gps = cell(Nx,1);                                                               
 n = 1500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
-offset = 1500;%30;%10 ;%+ 1613;
+offset = 2501;%30;%10 ;%+ 1613;
 
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
@@ -166,7 +166,7 @@ for i = 1:Nx
 end
 
 %% Save hyperparameters
-%save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
+save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
 
 %% Test on validation data
 

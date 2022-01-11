@@ -13,8 +13,8 @@ N_pred = 20;
 k = 1;
 bias = [0;0;c3;c4];
 
-start_n = 2502;%7900;
-stop_n = 5000;%8600;
+start_n = 1;%7900;
+stop_n = 1000;%8600;
    
 for n = start_n:stop_n
 
