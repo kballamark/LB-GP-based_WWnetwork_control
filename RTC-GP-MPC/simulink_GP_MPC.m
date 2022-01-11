@@ -50,7 +50,6 @@ end
 start_time_GP = round(time/(dT*60*simulink_frequency)) + 1;
 time_GP = Time(start_time_GP:(start_time_GP + Hp - 1));
 
-
 % State measure 
 X0 = X0/100;
 
