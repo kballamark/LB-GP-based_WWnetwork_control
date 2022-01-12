@@ -31,14 +31,14 @@ i = 2;
 ax(i) = subplot(2,2,i);
 ax(i).TickLabelInterpreter='latex';
 b(i) = bar(weights{i},'FaceColor','flat');
-clr1 = [0,0.5,0; 0,0,1];
+clr1 = [0,0.5,0; 0,0,1; 0.5, 0.5, 0.5];
 b(i).CData = clr1;
 ylim([0,1])
 ylabel('Weight','interpreter','latex')
 %xlabel('Index','interpreter','latex')
 grid on
 title('$y_2$','interpreter','latex')
-ax(i).XTickLabel={'h_{p4}', 'Q_{t2}'};
+ax(i).XTickLabel={'h_{p4}', 'Q_{t2}','t'};
 xtips = b(i).XEndPoints;
 ytips = b(i).YEndPoints;
 labels = string(round(b(i).YData,2));
@@ -49,14 +49,14 @@ i = 3;
 ax(i) = subplot(2,2,i);
 ax(i).TickLabelInterpreter='latex';
 b(i) = bar(weights{i},'FaceColor','flat');
-clr1 = [0,0.5,0; 0,0,1];
+clr1 = [0,0.5,0; 0,0,1; 0.5, 0.5, 0.5];
 b(i).CData = clr1;
 ylim([0,1])
 ylabel('Weight','interpreter','latex')
 xlabel('Index','interpreter','latex')
 grid on
 title('$y_3$','interpreter','latex')
-ax(i).XTickLabel={'h_{p4}', 'Q_{t2}'};
+ax(i).XTickLabel={'h_{p3}', 'Q_{t1}', 't'};
 xtips = b(i).XEndPoints;
 ytips = b(i).YEndPoints;
 labels = string(round(b(i).YData,2));
@@ -67,14 +67,14 @@ i = 4;
 ax(i) = subplot(2,2,i);
 ax(i).TickLabelInterpreter='latex';
 b(i) = bar(weights{i},'FaceColor','flat');
-clr1 = [0,0.5,0; 0,0,1; 0,1,0];
+clr1 = [0,0.5,0; 0,0.5,0; 0.5,0.5,0.5];
 b(i).CData = clr1;
 ylim([0,1])
 ylabel('Weight','interpreter','latex')
 xlabel('Index','interpreter','latex')
 grid on
 title('$y_4$','interpreter','latex')
-ax(i).XTickLabel={'h_{p4}', 'Q_{t2}', 'Q_{t2}'};
+ax(i).XTickLabel={'h_{p3}', 'h_{p4}', 't'};
 xtips = b(i).XEndPoints;
 ytips = b(i).YEndPoints;
 labels = string(round(b(i).YData,2));
