@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 80;                            % Number of points selected for GP prediction
+M  = 60;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters

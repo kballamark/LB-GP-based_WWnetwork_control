@@ -21,7 +21,7 @@ end
 %% 1-step predictions
 oneStepPredred = 1;
 if oneStepPredred == 1
-for i = 1:Nx
+for i = 2%1:Nx
 num_gp = i;                                                                     % gp selection
 gp1 = gps{num_gp};
 np = size(x,2)-n-1;                                                             % number of predictions

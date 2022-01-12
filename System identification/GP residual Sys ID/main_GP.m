@@ -73,6 +73,9 @@ y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(1,2500) = 0;
 
+% Remove NaN
+y(2,1) = y(2,2);
+
 % add noise (only on simulation data)
 y(1:Nxt,:) = y(1:Nxt,:); %+ 0.005*randn(Nxt,size(y,2));                           % Add noise to tank residuals
 y(Nxt+1:Nx,:) = y(Nxt+1:Nx,:); %+ 0.00075*randn(Nxp,size(y,2));                   % Add noise to pipe residuals
@@ -116,6 +119,17 @@ xlabel('Time [10 s]','interpreter','latex')
 ylabel('Level [$dm$]','interpreter','latex')
 grid on
 end
+
+%% Moving average filtering
+
+
+%% 
+figure
+plot(y(4,:))
+hold on
+plot(smooth(y(4,:)))
+
+
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
 n = 1500; % ARD combined                                                        % training set length
@@ -126,11 +140,11 @@ offset = 2501;%30;%10 ;%+ 1613;
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
 tic 
-for i = 1:Nx
+for i = 2%1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton','FitMethod','fic');
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton','FitMethod','fic','Regularization',2);
 end
 toc 
 % 'FitMethod','fic'
