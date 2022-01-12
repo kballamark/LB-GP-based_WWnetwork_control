@@ -142,7 +142,7 @@ for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton','FitMethod','fic');
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton');
 end
 toc 
 % 'FitMethod','fic'
@@ -178,7 +178,7 @@ for i = 1:Nx
 end
 
 %% Save hyperparameters
-save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
+%save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
 
 %% Test on validation data
 
