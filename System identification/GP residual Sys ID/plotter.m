@@ -1,6 +1,9 @@
 %% Length scale relevances
 % Relevance of the regressors show the effect of the different inputs
 % on the output residuals 
+
+% Find the predictor weights by taking the exponential of the negative learned length scales. Normalize the weights.
+
 for i = 1:Nx 
     weights{i} = exp(-gps{i}.KernelInformation.KernelParameters(1:end-1));      % Predictor weights
     weights{i} = weights{i}/sum(weights{i});                                    % normalized predictor weights
@@ -10,7 +13,7 @@ figure
 for i = 1:Nx
     subplot(2,2,i)
     %plot(weights{i},'ro','LineWidth',2)
-    bar(weights{i})
+    bar(weights{i},'FaceColor',[0,0.5,0])
     ylim([0,1])
     ylabel('Relevance')
     xlabel('Num. of regressor')
@@ -21,7 +24,7 @@ end
 %% 1-step predictions
 oneStepPredred = 1;
 if oneStepPredred == 1
-for i = 2%1:Nx
+for i = 1:Nx
 num_gp = i;                                                                     % gp selection
 gp1 = gps{num_gp};
 np = size(x,2)-n-1;                                                             % number of predictions
@@ -32,6 +35,8 @@ respred1 = resubPredict(gp1);
 plot(y(num_gp,offset:offset+n),'blue.');
 hold on 
 plot(respred1,'red','Linewidth',1.2)
+hold on
+plot(0.1*d(1,offset:n))
 title('1 step prediction - training data','interpreter','latex')
 leg = legend('Data','Model');
 set(leg,'Interpreter','latex');
@@ -45,6 +50,7 @@ plot(y(num_gp,n:(n+np)),'blue.');
 hold on 
 plot(respred1,'red','LineWidth',1.2)
 hold on
+plot(0.1*d(1,n:(n+np)))
 ciplot(ress_ci(:,1),ress_ci(:,2)) 
 title('1 step prediction - validation data','interpreter','latex')
 leg = legend('Data','Model','Confidence interval');
@@ -52,7 +58,7 @@ set(leg,'Interpreter','latex');
 xlabel('Time [10 s]','interpreter','latex')
 ylabel('Level [$dm$]','interpreter','latex')
 grid on
-xlim([1,n])
+xlim([1,np])
 end
 end
 

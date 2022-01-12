@@ -3,7 +3,7 @@ clc
 %% ================================================ Setup system ==============================================      
 % load time series
 load('.\data\onoff\x_full')
-load('.\data\onoff\u_full')
+load('.\data\onoff\u_ref_full')
 load('.\data\onoff\d_r_full')
 
 % load nominal parameters
@@ -22,6 +22,10 @@ x = [x(1,:); x(2,:); x(3,:); x(6,:)];
 x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(4,:) = (filloutliers(x(4,:),'nearest','movmean',200))';
+
+% smooth pipe level signals
+x(3,:) = smooth(smooth(x(3,:)));
+x(4,:) = smooth(x(4,:));
 
 % remove negative values from d_r
 for i = 1:size(d_r,2)
@@ -120,31 +124,25 @@ ylabel('Level [$dm$]','interpreter','latex')
 grid on
 end
 
-%% Moving average filtering
-
-
-%% 
-figure
-plot(y(4,:))
-hold on
-plot(smooth(y(4,:)))
-
+% Moving average filtering of residuals
+y(1,:) = smooth(y(1,:));
+y(2,:) = smooth(y(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
 n = 1500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
-offset = 2501;%30;%10 ;%+ 1613;
+offset = 30;%10 ;%+ 1613;
 
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
 tic 
-for i = 2%1:Nx
+for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton','FitMethod','fic','Regularization',2);
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton','FitMethod','fic');
 end
 toc 
 % 'FitMethod','fic'
