@@ -1,22 +1,3 @@
-% Find the predictor weights by taking the exponential of the negative learned length scales. Normalize the weights.
-
-for i = 1:Nx 
-    weights{i} = exp(-gps{i}.KernelInformation.KernelParameters(1:end-1));      % Predictor weights
-    weights{i} = weights{i}/sum(weights{i});                                    % normalized predictor weights
-end
-
-figure
-for i = 1:Nx
-    subplot(2,2,i)
-    %plot(weights{i},'ro','LineWidth',2)
-    bar(weights{i},'FaceColor',[0,0.5,0])
-    ylim([0,1])
-    ylabel('Relevance')
-    xlabel('Num. of regressor')
-    grid on
-    title(['Predictor relevance for y',num2str(i)],'interpreter','latex')
-end
-
 %%
 
 for i = 1:Nx 
@@ -29,17 +10,39 @@ end
 figure
 
 i = 1;
-ax(i) = subplot(2,2,1);
+ax(i) = subplot(2,2,i);
 ax(i).TickLabelInterpreter='latex';
-b(i) = bar(weights{i},'FaceColor',[0,0.5,0]);
+b(i) = bar(weights{i},'FaceColor','flat');
+clr1 = [1,0,0; 0.5,0.5,0.5];
+b(i).CData = clr1;
 ylim([0,1])
-ylabel('Predictor weight')
-xlabel('Predictor index')
+ylabel('Predictor weight','interpreter','latex')
+xlabel('Predictor index','interpreter','latex')
 grid on
-title(['Predictor relevance for y',num2str(i)],'interpreter','latex')
-ax(i).XTickLabel={'Q_{t1}', 't'};
-xtips2 = b(2).XEndPoints;
-ytips2 = b(2).YEndPoints;
-labels2 = string(b(2).YData);
-text(xtips2,ytips2,labels2,'HorizontalAlignment','center',...
+title('Predictor relevance - $y_1$','interpreter','latex')
+ax(i).XTickLabel={'d_{t1}', 't'};
+xtips = b(i).XEndPoints;
+ytips = b(i).YEndPoints;
+labels = string(round(b(i).YData,2));
+text(xtips,ytips,labels,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
+
+i = 2;
+ax(i) = subplot(2,2,i);
+ax(i).TickLabelInterpreter='latex';
+b(i) = bar(weights{i},'FaceColor','flat');
+clr1 = [0,0.5,0; 0,0,1];
+b(i).CData = clr1;
+ylim([0,1])
+ylabel('Predictor weight','interpreter','latex')
+xlabel('Predictor index','interpreter','latex')
+grid on
+title('$y_2$','interpreter','latex')
+ax(i).XTickLabel={'h_{p4}', 'Q_{t2}'};
+xtips = b(i).XEndPoints;
+ytips = b(i).YEndPoints;
+labels = string(round(b(i).YData,2));
+text(xtips,ytips,labels,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+
+sgtitle('Predictor relevance')

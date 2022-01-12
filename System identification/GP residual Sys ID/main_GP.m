@@ -130,7 +130,7 @@ y(2,:) = smooth(y(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1500; % ARD combined                                                        % training set length
+n = 2500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
@@ -138,7 +138,7 @@ offset = 30;%10 ;%+ 1613;
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
 tic 
-for i = 1:Nx
+for i = 1%1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
