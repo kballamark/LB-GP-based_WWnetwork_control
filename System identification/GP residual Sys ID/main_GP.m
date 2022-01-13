@@ -133,7 +133,7 @@ y(2,:) = smooth(y(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1500; % ARD combined                                                        % training set length
+n = 2500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
