@@ -13,10 +13,9 @@ nz = size(z,1);
 %     dim_select_C3 = [3,5];   % [3,5]                                % pipe 1
 %     dim_select_C4 = [3,4,10];       %[3,4,5,10];                    % pipe 2  % exclude 9 only because it is zero,i.e., there is no rain
 %     
-    dim_select_C1 = [7,10]; % [1,5,7,10]                            % tank 1
-    dim_select_C2 = [4,6]; % [2,4,6]                                % tank 2
-    dim_select_C3 = [5,10];   % [3,5]                                % pipe 1
-    dim_select_C4 = [3,5,10];       %[3,4,5,10];                    % pipe 2  % exclude 9 only because it is zero,i.e., there is no rain
+    dim_select_C1 = [5,7,10]; % [1,5,7,10]                            % tank 1
+    dim_select_C2 = [4,6]; % [2,4,6]                                  % tank 2
+    dim_select_C3 = [5,9,10];   % [3,5]                               % pipe 
 
 % Mapping matrix for output 1: 
 C{1} = zeros(size(dim_select_C1,2),nz);
@@ -32,9 +31,4 @@ end
 C{3} = zeros(size(dim_select_C3,2),nz);
 for i = 1:size(dim_select_C3,2)
     C{3}(i,dim_select_C3(i)) = 1;
-end
-% Mapping matrix for output 4: 
-C{4} = zeros(size(dim_select_C4,2),nz);
-for i = 1:size(dim_select_C4,2)
-    C{4}(i,dim_select_C4(i)) = 1;
 end
