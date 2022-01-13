@@ -3,7 +3,7 @@ clc
 %% ================================================ Setup system ==============================================      
 % load time series
 load('.\data\onoff\x_full')
-load('.\data\onoff\u_full')
+load('.\data\onoff\u_ref_full')
 load('.\data\onoff\d_r_full')
 
 % load nominal parameters
@@ -12,6 +12,9 @@ load('.\parameters\nominal\b41')
 load('.\parameters\nominal\c3')
 load('.\parameters\nominal\c4')
 load('.\parameters\nominal\Kt')
+
+b41 = 0;
+c4 = 0;
 
 %%
 
@@ -22,6 +25,10 @@ x = [x(1,:); x(2,:); x(3,:); x(6,:)];
 x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(3,:) = filloutliers(x(3,:),'nearest','movmean',200);
 x(4,:) = (filloutliers(x(4,:),'nearest','movmean',200))';
+
+% smooth pipe level signals
+x(3,:) = smooth(smooth(x(3,:)));
+x(4,:) = smooth(x(4,:));
 
 % remove negative values from d_r
 for i = 1:size(d_r,2)
@@ -73,6 +80,9 @@ y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(2,:) = filloutliers(y(2,:),'previous','mean');
 y(1,2500) = 0;
 
+% Remove NaN
+y(2,1) = y(2,2);
+
 % add noise (only on simulation data)
 y(1:Nxt,:) = y(1:Nxt,:); %+ 0.005*randn(Nxt,size(y,2));                           % Add noise to tank residuals
 y(Nxt+1:Nx,:) = y(Nxt+1:Nx,:); %+ 0.00075*randn(Nxp,size(y,2));                   % Add noise to pipe residuals
@@ -116,9 +126,14 @@ xlabel('Time [10 s]','interpreter','latex')
 ylabel('Level [$dm$]','interpreter','latex')
 grid on
 end
+
+% Moving average filtering of residuals
+y(1,:) = smooth(y(1,:));
+y(2,:) = smooth(y(2,:));
+
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1500; % ARD combined                                                        % training set length
+n = 2500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
@@ -130,7 +145,7 @@ for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'Optimizer','quasinewton');
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2);
 end
 toc 
 % 'FitMethod','fic'
@@ -138,7 +153,7 @@ toc
 plotter;
 
 %% ============================================= Save GP object ==============================================  
-save('.\GPs\gps_onoff')
+%save('.\GPs\gps')
 %save('.\GPs_short\gps')
 %load('.\GPs\gps_onoff')
 
@@ -166,16 +181,16 @@ for i = 1:Nx
 end
 
 %% Save hyperparameters
-%save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
+save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mod','C','Beta')
 
 %% Test on validation data
 
-num_test = 4;
+num_test = 1;
 gp1 = gps{num_test};
 [respred1,~,ress_ci] = predict(gp1, (C{num_test}*z(:,n:n+np))');
 
 figure
-plot(x(num_test,999:end))
+plot(x(num_test,1:end))
 hold on
 plot(respred1' + f(num_test,999:end))
 %  
