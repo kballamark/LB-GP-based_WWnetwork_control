@@ -13,6 +13,9 @@ load('.\parameters\nominal\c3')
 load('.\parameters\nominal\c4')
 load('.\parameters\nominal\Kt')
 
+b41 = 0;
+c4 = 0;
+
 %%
 
 % discard p2 and p3 states from dataset
@@ -130,7 +133,7 @@ y(2,:) = smooth(y(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 900; % ARD combined                                                        % training set length
+n = 1500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
