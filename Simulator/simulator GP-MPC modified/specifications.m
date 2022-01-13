@@ -94,7 +94,7 @@ X_sim(2,t_init) = 2.8 + h_lift;              % init. tank2 state [m^3]
 X_sim(Nxt+1:Nxt+Nxp_sim,t_init) = 0.001;     % init. pipe states [m]
 sigma_X0_sim = zeros(Nx,Nx);                 % zero initial variance
 [D_sim_sim, D_sim_sim_f] = forecast(D_sim_rain,t_init,Hp);
-X_sim_GP(:,t_init) = [X_sim(1,t_init); X_sim(2,t_init); X_sim(3,t_init); X_sim(6,t_init)];
+X_sim_GP(:,t_init) = [X_sim(1,t_init); X_sim(2,t_init); X_sim(6,t_init)];
 u_prev = [0;0];                     % init. integral action
 
 Z_train_subset = GP.z_train(:,t_init:t_init+M-1);   % Initialize the training subset randomly (first M entry) GP.z_train(:,randperm(length(GP.z_train(1,:)),M));%

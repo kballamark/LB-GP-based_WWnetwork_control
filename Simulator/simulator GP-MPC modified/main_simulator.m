@@ -97,12 +97,12 @@ for i = t_init:1:N
     % Dynamics simulator
     X_sim(:,i+1) = full(F_integral_sim(X_sim(:,i), U_opt(:,i), D_sim(:,1 + (i-1)*t_resample), P_sim, dt_MPC ));
     % State update for the GP
-    X_sim_GP(:,i+1) = [X_sim(1,i+1); X_sim(2,i+1); X_sim(3,i+1); X_sim(6,i+1)];
+    X_sim_GP(:,i+1) = [X_sim(1,i+1); X_sim(2,i+1); X_sim(6,i+1)];
     
     % Learn new datapoints
     if mod(i,2) == 0   % learn every 2nd datapoint 
     GP.z_train = [GP.z_train, [X_sim_GP(:,i); U_opt(:,i); D_sim_sim_f(:,1); Time(i)]];
-    GP.y_train = [GP.y_train, X_sim_GP(:,i+1) - (A*X_sim_GP(:,i) + B*U_opt(:,i) + E*D_sim_sim_f(:,1) + [0;0;c3;c4])];
+    GP.y_train = [GP.y_train, X_sim_GP(:,i+1) - (A*X_sim_GP(:,i) + B*U_opt(:,i) + E*D_sim_sim_f(:,1) + [0;0;c4])];
     end
     
     % real time plot
