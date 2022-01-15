@@ -4,13 +4,13 @@
 
 % Find the predictor weights by taking the exponential of the negative learned length scales. Normalize the weights.
 
-for i = 1:Nx 
+for i = 3%1:Nx 
     weights{i} = exp(-gps{i}.KernelInformation.KernelParameters(1:end-1));      % Predictor weights
     weights{i} = weights{i}/sum(weights{i});                                    % normalized predictor weights
 end
 
 figure
-for i = 1:Nx
+for i = 3%1:Nx
     subplot(2,2,i)
     %plot(weights{i},'ro','LineWidth',2)
     bar(weights{i},'FaceColor',[0,0.5,0])
@@ -24,7 +24,7 @@ end
 %% 1-step predictions
 oneStepPredred = 1;
 if oneStepPredred == 1
-for i = 1:Nx
+for i = 3%1:Nx
 num_gp = i;                                                                     % gp selection
 gp1 = gps{num_gp};
 np = size(x,2)-n-1;                                                             % number of predictions
@@ -36,7 +36,7 @@ plot(y(num_gp,offset:offset+n),'blue.');
 hold on 
 plot(respred1,'red','Linewidth',1.2)
 hold on
-plot(0.1*d(1,offset:n))
+%plot(0.1*d(1,offset:n))
 title('1 step prediction - training data','interpreter','latex')
 leg = legend('Data','Model');
 set(leg,'Interpreter','latex');
@@ -50,7 +50,10 @@ plot(y(num_gp,n:(n+np)),'blue.');
 hold on 
 plot(respred1,'red','LineWidth',1.2)
 hold on
-plot(0.1*d(1,n:(n+np)))
+%plot(0.1*d(1,n:(n+np)))
+% plot(u(1,n:(n+np))*0.01)
+% hold on
+% plot(t_mod)
 ciplot(ress_ci(:,1),ress_ci(:,2)) 
 title('1 step prediction - validation data','interpreter','latex')
 leg = legend('Data','Model','Confidence interval');

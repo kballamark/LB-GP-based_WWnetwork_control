@@ -6,6 +6,7 @@ clc
 % load('.\data\onoff\u_ref_full')
 % load('.\data\onoff\d_r_full')
 
+
 load('.\data\onoff\x_long')
 load('.\data\onoff\u_long')
 %load('.\data\onoff\d_long')
@@ -145,10 +146,10 @@ offset = 30;%10 ;%+ 1613;
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
 tic 
-for i = 1:Nx
+for i = 3%1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
-        struct('UseParallel',true,'MaxObjectiveEvaluations',30,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
+        struct('UseParallel',true,'MaxObjectiveEvaluations',40,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
         'Sigma',sigma0(i),'Standardize',1,'Verbose',2);
 end
 toc 

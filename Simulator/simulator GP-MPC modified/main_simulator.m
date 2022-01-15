@@ -33,8 +33,8 @@ Time = mod(t-offset,period)./period;
 % quick fix: 
 GP.y_train = [GP.y_train, GP.y_train(:,end)];
 
-GP.z_train(:,1:2:end) = [];
-GP.y_train(:,1:2:end) = [];
+% GP.z_train(:,1:2:end) = [];
+% GP.y_train(:,1:2:end) = [];
 %
 % GP.z_train(:,1:2:end) = [];
 % GP.y_train(:,1:2:end) = [];

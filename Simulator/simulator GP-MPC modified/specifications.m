@@ -79,7 +79,7 @@ min_t2_op = 4.5;
 
 %% MPC specs
 t_resample = 20;                    % Resample raw data - conversion between simulator/MPC time steps
-Hp = 20;                            % 40 for Pde mpc
+Hp = 15;                            % 40 for Pde mpc
 dt_original = 0.5;                  % In lab we sample with dt = 0.5 [s]
 data_timeUnit = 60;                 % MPC is running with T = 60 [s] = 1 [min]
 dt_MPC = dt_original*t_resample/data_timeUnit;
