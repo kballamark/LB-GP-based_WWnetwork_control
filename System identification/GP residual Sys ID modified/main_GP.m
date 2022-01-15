@@ -2,9 +2,14 @@ clear all;
 clc
 %% ================================================ Setup system ==============================================      
 % load time series
-load('.\data\onoff\x_full')
-load('.\data\onoff\u_ref_full')
-load('.\data\onoff\d_r_full')
+% load('.\data\onoff\x_full')
+% load('.\data\onoff\u_ref_full')
+% load('.\data\onoff\d_r_full')
+
+load('.\data\onoff\x_long')
+load('.\data\onoff\u_long')
+%load('.\data\onoff\d_long')
+load('.\data\onoff\d_r_long')
 
 % load nominal parameters
 load('.\parameters\nominal\b31')
@@ -59,7 +64,7 @@ Bp = [b41, 0];
 Ep = zeros(1,3);
 
 d = d_r;
-d(:,end) = [];
+% d(:,end) = [];
 
 % Nominal dynamics - combined
 A = [At; Ap];
@@ -127,9 +132,12 @@ end
 y(1,:) = smooth(y(1,:));
 y(2,:) = smooth(y(2,:));
 
+u(1,:) = smooth(u(1,:));
+u(2,:) = smooth(u(2,:));
+
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1800; % ARD combined                                                        % training set length
+n = 1500; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;

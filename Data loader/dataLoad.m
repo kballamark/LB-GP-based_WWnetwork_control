@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_Onoff_2500_to_5800');
+load('data/DataSave_Onoff_1_to_5800_full');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -33,12 +33,12 @@ x(2,:) = labRes.Data(startData:t_resample:endData-1,7)'/100;                    
 x(3:6,:) = medfilt1(labRes.Data(startData:t_resample:endData-1,2:2+4-1)'/100,3);% [dm]
 
 % input
-% u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,8),'none');           % [dm^3/s]
-% u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,9),'none');           % [dm^3/s]
+u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,8),'none');           % [dm^3/s]
+u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,9),'none');           % [dm^3/s]
 
 % Lab experiment: reference to the pumps
-u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
-u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
+% u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
+% u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
 
 % disturbance
 d(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,13),'none');          % dt1
@@ -147,6 +147,13 @@ grid on
 xlim([0, length(d)]);
 
 linkaxes(ax,'x');
+
+figure
+plot(x(3:6,:)','LineWidth',0.5)
+ylabel('Water level','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('Pipe states','interpreter','latex')
+
 end
 %%
 plotEnable = 0;
@@ -183,16 +190,16 @@ end
 %u = u(:,1:2500);
 %d = d(:,1:2500);
 % 
-% save('save_sys_ID/x_part1','x')
-% save('save_sys_ID/u_ref_part1','u')
-% save('save_sys_ID/d_part1','d')
+% save('save_sys_ID/x_long','x')
+% save('save_sys_ID/u_long','u')
+% save('save_sys_ID/d_long','d')
 
 % x = x(:,1:2800);
- u = u(:,1:2800);
+ %u = u(:,1:2800);
 % d = d(:,1:2800);
 % 
 % save('save_sys_ID/x_part2','x')
- save('save_sys_ID/u_ref_part2','u')
+ %save('save_sys_ID/u_ref_part2','u')
 % save('save_sys_ID/d_part2','d')
 
 
