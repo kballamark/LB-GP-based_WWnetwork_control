@@ -14,8 +14,8 @@ nz = size(z,1);
 %     dim_select_C4 = [3,4,10];       %[3,4,5,10];                    % pipe 2  % exclude 9 only because it is zero,i.e., there is no rain
 %     
     dim_select_C1 = [4,6,9]; % [1,5,7,10]                            % tank 1
-    dim_select_C2 = [3,4,5]; % [2,4,6]                                  % tank 2
-    dim_select_C3 = [3,4,9];   % [3,5]                               % pipe 
+    dim_select_C2 = [3,5]; % [2,4,6]                                  % tank 2
+    dim_select_C3 = [4,9];   % [3,5]                               % pipe 
 
 % Mapping matrix for output 1: 
 C{1} = zeros(size(dim_select_C1,2),nz);

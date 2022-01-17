@@ -7,10 +7,9 @@ clc
 % load('.\data\onoff\d_r_full')
 
 
-load('.\data\onoff\x_long')
-load('.\data\onoff\u_long')
-%load('.\data\onoff\d_long')
-load('.\data\onoff\d_r_long')
+load('.\data\onoff\x_long_v1')
+load('.\data\onoff\u_long_v1')
+load('.\data\onoff\d_r_long_v1')
 
 % load nominal parameters
 load('.\parameters\nominal\b31')
@@ -22,10 +21,8 @@ load('.\parameters\nominal\Kt')
 b41 = 0;
 c4 = 0;
 
-%%
-
 % discard p1, p2 and p3 states from dataset
-x = [x(1,:); x(2,:); x(6,:)];
+x = [x(1,:); x(2,:); x(5,:)];
 
 % outlier removal
 x(3,:) = (filloutliers(x(3,:),'nearest','movmean',200))';
@@ -138,7 +135,7 @@ u(2,:) = smooth(u(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1500; % ARD combined                                                        % training set length
+n = 1800; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
@@ -146,7 +143,7 @@ offset = 30;%10 ;%+ 1613;
 opts = statset('fitrgp');
 opts.TolFun = 1e-2;                                                             % convergance tolerance
 tic 
-for i = 3%1:Nx
+for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',40,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
@@ -158,7 +155,7 @@ toc
 plotter;
 
 %% ============================================= Save GP object ==============================================  
-%save('.\GPs\gps')
+%save('.\GPs\gps','gps')
 %save('.\GPs_short\gps')
 %load('.\GPs\gps_onoff')
 

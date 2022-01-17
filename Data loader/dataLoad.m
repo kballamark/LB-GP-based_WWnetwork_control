@@ -190,9 +190,9 @@ end
 %u = u(:,1:2500);
 %d = d(:,1:2500);
 % 
-% save('save_sys_ID/x_long','x')
-% save('save_sys_ID/u_long','u')
-% save('save_sys_ID/d_long','d')
+save('save_sys_ID/x_long_v1','x')
+save('save_sys_ID/u_long_v1','u')
+save('save_sys_ID/d_long_v1','d')
 
 % x = x(:,1:2800);
  %u = u(:,1:2800);

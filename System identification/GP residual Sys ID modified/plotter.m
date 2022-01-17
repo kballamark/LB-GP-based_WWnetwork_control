@@ -4,13 +4,13 @@
 
 % Find the predictor weights by taking the exponential of the negative learned length scales. Normalize the weights.
 
-for i = 3%1:Nx 
+for i = 1:Nx 
     weights{i} = exp(-gps{i}.KernelInformation.KernelParameters(1:end-1));      % Predictor weights
     weights{i} = weights{i}/sum(weights{i});                                    % normalized predictor weights
 end
 
 figure
-for i = 3%1:Nx
+for i = 1:Nx
     subplot(2,2,i)
     %plot(weights{i},'ro','LineWidth',2)
     bar(weights{i},'FaceColor',[0,0.5,0])
@@ -24,7 +24,7 @@ end
 %% 1-step predictions
 oneStepPredred = 1;
 if oneStepPredred == 1
-for i = 3%1:Nx
+for i = 1:Nx
 num_gp = i;                                                                     % gp selection
 gp1 = gps{num_gp};
 np = size(x,2)-n-1;                                                             % number of predictions
