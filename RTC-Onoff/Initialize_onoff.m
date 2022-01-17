@@ -12,7 +12,7 @@ ND = 3;                             % number of disturbances
 %% Properties - controller
 % Tank constraints
 max_t1 = 6.8;           % 6.7 physical maximum    
-min_t1 = 2;%3.8;             % 6.7 physical maximum 
+min_t1 = 3.8;%3.8;             % 6.7 physical maximum 
 max_t2 = 6.1;           %6.1 max?      
 min_t2 = 2;%4.3;
 
@@ -45,5 +45,5 @@ input1 = u1_on;
 input2 = u2_on;
 
 %% cut beginning of experiment
-D_sim(:,1:2500*20) = [];
+%D_sim(:,1:2500*20) = [];
 
