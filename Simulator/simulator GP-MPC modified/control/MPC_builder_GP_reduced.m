@@ -117,10 +117,26 @@ end
 
 %% =========================================== Objective function ==============================
 hV = Kt/dt_MPC;
-W_x = 10;
-W_u = [8,0; 0,4];
-%W_s = [20,0,0,0; 0,50,0,0; 0,0,4,0; 0,0,0,10];  
-W_s = [20,0,0,0; 0,40,0,0; 0,0,20,0; 0,0,0,40];  
+% W_x = 10;
+% W_u = [8,0; 0,4];
+% %W_s = [20,0,0,0; 0,50,0,0; 0,0,4,0; 0,0,0,10];  
+% W_s = [400,0,0,0; 0,400,0,0; 0,0,400,0; 0,0,0,400];  
+% W_o = 1000;%100;
+% 
+% objective_sigma = 0;
+% for i = 1:Hp
+%     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
+% end
+% 
+% objective_all = W_x*hV*(0.0005*sumsqr(mu_X(1:Nxt,2:end)) + 0.0000001*objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);  
+% 
+% 
+
+
+
+W_x = 0.1;    %10
+W_u = 10; 
+W_s = 500;  
 W_o = 1000;%100;
 
 objective_sigma = 0;
@@ -128,9 +144,11 @@ for i = 1:Hp
     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
 end
 
-objective_all = W_x*hV*(0.0005*sumsqr(mu_X(1:Nxt,2:end)) + 0.0000001*objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);    
+%objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS); 
+objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + 0.1*objective_sigma) + W_u*sumsqr([1,0; 0,1]*dU)...
+    + W_s*hV*sumsqr([1,0,0,0; 0,1,0,0; 0,0,1,0; 0,0,0,1]*XI) + W_o*hV*sumsqr(EPS); 
+
 opti.minimize(objective_all); 
-%W_x*hV*(0.0005*sumsqr(mu_X(:,2:end)) + objective_sigma)
 
 %% ============================================== Constraints ==================================
 for k = 2:Hp
