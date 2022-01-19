@@ -114,11 +114,11 @@ end
 %% =========================================== Objective function ==============================
 hV = Kt/dt_MPC;
 
-W_x = 0.01;    %10
-W_u = 10; 
-W_s = 500;  
+W_x = 0.0001;    %10
+W_u = 10;%10; 
+W_s = 10;  
 %W_o = 10000;%100;
-W_o = [500, 1000, 0, 0, 1000, 1000, 0, 0];
+W_o = [500, 1000, 0.1, 0.1, 1000, 1000, 0.1, 0.1];
 
 objective_sigma = 0;
 for i = 1:Hp
@@ -126,7 +126,7 @@ for i = 1:Hp
 end
 
 %objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS); 
-objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + 0.1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
+objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + 0.1*objective_sigma) + W_u*sumsqr([3,0; 0,2]*dU)...
     + W_s*hV*sumsqr([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,5]*XI) + hV*sumsqr(diag(W_o)*EPS);    
 
 % W_x = 0.01;

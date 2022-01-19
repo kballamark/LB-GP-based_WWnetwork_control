@@ -93,6 +93,6 @@ sigma_Hp_trace = 0;
 KPI_sigma = (1/Hp)*sigma_Hp_trace; 
 toc
 
-output = [u_sol; eps_sol; xi_sol, KPI_u, KPI_s, KPI_o, KPI_sigma];
+output = [u_sol; eps_sol; xi_sol; KPI_u; KPI_s; KPI_o; KPI_sigma];
 
 end

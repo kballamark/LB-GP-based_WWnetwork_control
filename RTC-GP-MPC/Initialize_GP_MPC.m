@@ -45,7 +45,7 @@ min_t1 = 4.2;
 max_t2 = 5.8;%5.95;     
 min_t2 = 4.3;
 % Pipe constraints                  % UNIT:[dm] 
-h_p_max = 0.4;
+h_p_max = 1;
 h_p_min = 0.00001;
 % Tank safety region
 max_t1_op = 5.6;                    % UNIT:[dm] 
@@ -91,8 +91,11 @@ GP.y_train(:,1:2:end) = [];
 %% Stochastic disturbance forecast
 %D_sim_rain_uncertain = abs(D_sim_rain + randn(3,length(D_sim_rain))*0.5);   %0.5
 
-D_sim(:,1:150*20) = [];
-D_sim_rain(:,1:150*20) = [];
+D_sim(:,1:115*20) = [];
+D_sim_rain(:,1:115*20) = [];
+
+D_sim(:,1:200*20) = [];
+D_sim_rain(:,1:200*20) = [];
 
 % % test for only rainy period
 % D_sim(:,1:1350*20) = [];
