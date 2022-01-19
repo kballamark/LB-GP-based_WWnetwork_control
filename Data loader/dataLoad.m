@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_Onoff_1_to_5800_full_v1');
+load('data/DataSave_MPC_GP_08_01_2022_v1');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -135,7 +135,7 @@ grid on
 xlim([0, length(d)]);
 
 ax(6) = subplot(3,2,6);
-plot(smooth(u(2,:))','blue','LineWidth',0.5)
+plot((u(2,:))','blue','LineWidth',0.5)
 hold on
 yline(u2_off,'red--','Min','LineWidth',1.5);
 hold on
