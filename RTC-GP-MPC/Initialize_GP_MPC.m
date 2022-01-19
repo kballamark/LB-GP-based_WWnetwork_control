@@ -94,9 +94,6 @@ GP.y_train(:,1:2:end) = [];
 D_sim(:,1:115*20) = [];
 D_sim_rain(:,1:115*20) = [];
 
-D_sim(:,1:200*20) = [];
-D_sim_rain(:,1:200*20) = [];
-
 % % test for only rainy period
 % D_sim(:,1:1350*20) = [];
 % D_sim_rain(:,1:1350*20) = [];
