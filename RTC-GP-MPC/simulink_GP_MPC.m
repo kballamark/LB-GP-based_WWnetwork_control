@@ -59,12 +59,14 @@ tic
     OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP);
 toc
 
-% Solution
+%First-step Solutions
 u_sol = full(U_opt_Hp(:,1));
-u_prev = u_sol;
-Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance; time_GP];
 eps_sol = full(EPS_opt_Hp(:,1));
 xi_sol = full(XI_opt_Hp(:,1));
+% integral action
+u_prev = u_sol;
+% training set build
+Z_pred = [full(mu_X_opt_Hp); full(U_opt_Hp); disturbance; time_GP];
 
 % Subset of Data (SoD) point selection 
 [Z_train_subset, Y_train_subset] = reduce_M(Z_pred,GP.z_train,GP.y_train,Hp,M);
@@ -79,6 +81,17 @@ if mod(round(time),20) == 0   % learn every 2nd datapoint
     disp('Learn')
 end
 
-output = [u_sol; eps_sol; xi_sol];
+% KPI calculations
+KPI_u = (1/Hp)*sum(sumsqr(full(dU_opt_Hp)));
+KPI_s = (1/Hp)*sum(sum(full(XI_opt_Hp)));  
+KPI_o = (1/Hp)*sum(sum(full(EPS_opt_Hp))); 
+
+sigma_Hp_trace = 0;
+    for i = 1:Hp
+        sigma_Hp_trace = sigma_Hp_trace + trace(full(sigma_X_opt_Hp(:,(i-1)*Nx+1:i*Nx)));
+    end
+KPI_sigma = (1/Hp)*sigma_Hp_trace; 
+
+output = [u_sol; eps_sol; xi_sol, KPI_u, KPI_s, KPI_o, KPI_sigma];
 
 end
