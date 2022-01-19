@@ -42,7 +42,7 @@ u2_off = 5.4;                       % 5.4
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
 min_t1 = 4.2;             
-max_t2 = 5.95;     
+max_t2 = 5.8;%5.95;     
 min_t2 = 4.3;
 % Pipe constraints                  % UNIT:[dm] 
 h_p_max = 0.4;
