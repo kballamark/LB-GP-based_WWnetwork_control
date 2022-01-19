@@ -57,7 +57,7 @@ tic
 % openloop GP-MPC
 [U_opt_Hp, mu_X_opt_Hp, sigma_X_opt_Hp, lam_g, x_init, mu_p_opt, XI_opt_Hp, EPS_opt_Hp, dU_opt_Hp] = ...
     OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP);
-toc
+
 
 %First-step Solutions
 u_sol = full(U_opt_Hp(:,1));
@@ -91,6 +91,7 @@ sigma_Hp_trace = 0;
         sigma_Hp_trace = sigma_Hp_trace + trace(full(sigma_X_opt_Hp(:,(i-1)*Nx+1:i*Nx)));
     end
 KPI_sigma = (1/Hp)*sigma_Hp_trace; 
+toc
 
 output = [u_sol; eps_sol; xi_sol, KPI_u, KPI_s, KPI_o, KPI_sigma];
 
