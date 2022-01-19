@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 60;                            % Number of points selected for GP prediction
+M  = 80;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
@@ -42,7 +42,7 @@ u2_off = 5.4;                       % 5.4
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
 min_t1 = 4.2;             
-max_t2 = 5.95;     
+max_t2 = 5.8;%5.95;     
 min_t2 = 4.3;
 % Pipe constraints                  % UNIT:[dm] 
 h_p_max = 0.4;
@@ -94,8 +94,21 @@ GP.y_train(:,1:2:end) = [];
 D_sim(:,1:150*20) = [];
 D_sim_rain(:,1:150*20) = [];
 
-% test
-D_sim(:,1:1350*20) = [];
-D_sim_rain(:,1:1350*20) = [];
+% % test for only rainy period
+% D_sim(:,1:1350*20) = [];
+% D_sim_rain(:,1:1350*20) = [];
+
+% little rain events without no rain period
+% D_sim(:,1:430*20) = [];
+% D_sim_rain(:,1:430*20) = [];
+% 
+% D_sim(:,1:500*20) = [];
+% D_sim_rain(:,1:500*20) = [];
+
+
+% Long rain event
+% D_sim(:,1:750*20) = [];
+% D_sim_rain(:,1:500*20) = [];
 
 disp('Initialization OK')
+

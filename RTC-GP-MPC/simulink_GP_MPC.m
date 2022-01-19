@@ -72,13 +72,13 @@ xi_sol = full(XI_opt_Hp(:,1));
 % Pre-calculate K_xx and inv_K_xx
 inv_K_xx_val = K_xx_builder(Z_train_subset,GP,Nx,M);
 
-output = [u_sol; eps_sol; xi_sol];
-
 % Learn new points
-if mod(round(time),40) == 0   % learn every 2nd datapoint 
+if mod(round(time),20) == 0   % learn every 2nd datapoint 
     GP.z_train = [GP.z_train, [X0; u_sol; disturbance(:,1); Time(start_time_GP)]];
     GP.y_train = [GP.y_train, full(mu_X_opt_Hp(:,2)) - (A*X0 + B*u_sol + E*disturbance(:,1) + [0;0;c3;c4])];
     disp('Learn')
 end
+
+output = [u_sol; eps_sol; xi_sol];
 
 end
