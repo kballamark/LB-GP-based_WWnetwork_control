@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_19_01_2022_v1');
+load('data/DataSave_MPC_GP_19_01_2022_v2');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -52,6 +52,12 @@ conv_mm2Todm2 = 10^-4;
 Kt = labRes.Data(1,10)*conv_mm2Todm2;
 
 %plot(y)
+%%
+
+KPI_u = labRes.Data(startData:t_resample:endData-1,22)'; 
+KPI_s = labRes.Data(startData:t_resample:endData-1,23)'; 
+KPI_o = labRes.Data(startData:t_resample:endData-1,24)'; 
+KPI_sigma = labRes.Data(startData:t_resample:endData-1,25)'; 
 
 %% 
 % Input constraints                 % UNIT:[l/min]  
@@ -61,7 +67,7 @@ u2_on  = 14;                        % 14
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
-min_t1 = 4.4;             
+min_t1 = 3.8;             
 max_t2 = 6.2;     
 min_t2 = 4.3;
 % Tank safety region
@@ -154,6 +160,9 @@ ylabel('Water level','interpreter','latex');
 xlabel('Time','interpreter','latex');
 title('Pipe states','interpreter','latex')
 
+figure
+ax(1) = subplot(4,1,1)
+
 end
 %%
 plotEnable = 0;
@@ -190,9 +199,9 @@ end
 %u = u(:,1:2500);
 %d = d(:,1:2500);
 % 
-save('save_sys_ID/x_long_v1','x')
-save('save_sys_ID/u_long_v1','u')
-save('save_sys_ID/d_long_v1','d')
+% save('save_sys_ID/x_long_v1','x')
+% save('save_sys_ID/u_long_v1','u')
+% save('save_sys_ID/d_long_v1','d')
 
 % x = x(:,1:2800);
  %u = u(:,1:2800);
