@@ -87,9 +87,9 @@ KPI_s = (1/Hp)*sum(sum(full(XI_opt_Hp)));
 KPI_o = (1/Hp)*sum(sum(full(EPS_opt_Hp))); 
 
 sigma_Hp_trace = 0;
-    for i = 1:Hp
-        sigma_Hp_trace = sigma_Hp_trace + trace(full(sigma_X_opt_Hp(:,(i-1)*Nx+1:i*Nx)));
-    end
+for i = 1:Hp
+    sigma_Hp_trace = sigma_Hp_trace + trace(full(sigma_X_opt_Hp(:,(i-1)*Nx+1:i*Nx)));
+end
 KPI_sigma = (1/Hp)*sigma_Hp_trace; 
 toc
 

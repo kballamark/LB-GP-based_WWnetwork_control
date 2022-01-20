@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_19_01_2022_v2');
+load('data/DataSave_MPC_GP_20_01_2022_v1');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -52,8 +52,8 @@ conv_mm2Todm2 = 10^-4;
 Kt = labRes.Data(1,10)*conv_mm2Todm2;
 
 %plot(y)
-%%
 
+% KPIs
 KPI_u = labRes.Data(startData:t_resample:endData-1,22)'; 
 KPI_s = labRes.Data(startData:t_resample:endData-1,23)'; 
 KPI_o = labRes.Data(startData:t_resample:endData-1,24)'; 
