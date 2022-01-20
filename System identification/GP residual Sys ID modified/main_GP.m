@@ -17,7 +17,7 @@ load('.\parameters\nominal\b41')
 load('.\parameters\nominal\c3')
 load('.\parameters\nominal\c4')
 load('.\parameters\nominal\Kt')
-
+%%
 b41 = 0;
 c4 = 0;
 
@@ -28,7 +28,7 @@ x = [x(1,:); x(2,:); x(5,:)];
 x(3,:) = (filloutliers(x(3,:),'nearest','movmean',200))';
 
 % smooth pipe level signals
-x(3,:) = smooth(x(3,:));
+%x(3,:) = smooth(x(3,:));
 
 % remove negative values from d_r
 for i = 1:size(d_r,2)
@@ -127,11 +127,11 @@ grid on
 end
 
 % Moving average filtering of residuals
-y(1,:) = smooth(y(1,:));
-y(2,:) = smooth(y(2,:));
-
-u(1,:) = smooth(u(1,:));
-u(2,:) = smooth(u(2,:));
+% y(1,:) = smooth(y(1,:));
+% y(2,:) = smooth(y(2,:));
+% 
+% u(1,:) = smooth(u(1,:));
+% u(2,:) = smooth(u(2,:));
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
@@ -147,7 +147,7 @@ for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
         struct('UseParallel',true,'MaxObjectiveEvaluations',40,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2);
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'FitMethod','fic');
 end
 toc 
 % 'FitMethod','fic'
@@ -157,7 +157,7 @@ plotter;
 %% ============================================= Save GP object ==============================================  
 %save('.\GPs\gps','gps')
 %save('.\GPs_short\gps')
-%load('.\GPs\gps_onoff')
+load('.\GPs\gps')
 
 %% ====================================== Build & Save hyperparameters =======================================  
 % Build sigma_L and sigma_f

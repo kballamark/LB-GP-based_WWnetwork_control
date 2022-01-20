@@ -11,7 +11,7 @@ end
 
 figure
 for i = 1:Nx
-    subplot(2,2,i)
+    subplot(1,3,i)
     %plot(weights{i},'ro','LineWidth',2)
     bar(weights{i},'FaceColor',[0,0.5,0])
     ylim([0,1])
@@ -20,6 +20,10 @@ for i = 1:Nx
     grid on
     title(['Predictor relevance for y',num2str(i)],'interpreter','latex')
 end
+
+%%
+save('weights','weights')
+%%
 
 %% 1-step predictions
 oneStepPredred = 1;
