@@ -5,16 +5,17 @@ clear pred_N_save
 clear conf_N_save
 clear residual_ci_N_full
 clear residual_ci_N
+clear residual_save
 
 %% Np long prediction
 
-num_x = [0,1,1,2];                                                              % number of state regressor in residuals
+num_x = [0,1,0];                                                              % number of state regressor in residuals
 N_pred = 20;
 k = 1;
-bias = [0;0;c3;c4];
+bias = [0;0;c3];
 
-start_n = 1;%7900;
-stop_n = 1000;%8600;
+start_n = 2801;%7900;
+stop_n = 5270;%8600;
    
 for n = start_n:stop_n
 
@@ -32,6 +33,8 @@ for n = start_n:stop_n
            %x_hat(j,i+1)= residual_N;
            x_hat(j,i+1)= A(j,j)*x_hat(j,i) + B(j,:)*u(:,n+i-1) + residual_N + bias(j);
            residual_ci_N_full{j}(i,:) = residual_ci_N + x_hat(j,i+1);
+           residual_ci_N_full_resOnly{j}(i,:) = residual_ci_N;
+           residual_temp(j,i) = residual_N;
         end
         
         if sum(isnan(residual_N)) > 0
@@ -49,9 +52,11 @@ for n = start_n:stop_n
 %     hold on
 %     plot(x_hat(j,:))
 
+    residual_save(:,k) = residual_temp(:,end);
     pred_N_save(:,k) = x_hat(:,end);
     for l = 1:Nx
     conf_N_save{l}(k,:) = residual_ci_N_full{l}(end,:);
+    conf_N_save_resOnly{l}(k,:) = residual_ci_N_full_resOnly{l}(end,:);
     end
     k = k + 1;
     k
@@ -74,5 +79,23 @@ ylabel('Level [$dm$]','interpreter','latex')
 xlabel('Time [10 s]','interpreter','latex')
 end
 
+%%
+figure
+for select = 1:Nx
+subplot(3,1,select)
+plot(y(select,start_n + N_pred : stop_n + N_pred))
+hold on
+plot((residual_save(select,:)))
+hold on
+ciplot(conf_N_save_resOnly{select}(:,1) ,conf_N_save_resOnly{select}(:,2)) 
+title('N-step prediction - validation data','interpreter','latex')
+leg = legend('Experiment','Model');
+set(leg,'Interpreter','latex');
+grid on
+ylabel('Level [$dm$]','interpreter','latex')
+xlabel('Time [10 s]','interpreter','latex')
+end
 
-
+%%
+save('residual_save','residual_save')
+save('conf_N_save_resOnly','conf_N_save_resOnly')

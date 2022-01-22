@@ -22,7 +22,7 @@ for i = 1:Nx
 end
 
 %%
-save('weights','weights')
+%save('weights','weights')
 %%
 
 %% 1-step predictions

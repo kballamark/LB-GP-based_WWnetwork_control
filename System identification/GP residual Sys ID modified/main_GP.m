@@ -2,14 +2,14 @@ clear all;
 clc
 %% ================================================ Setup system ==============================================      
 % load time series
-% load('.\data\onoff\x_full')
-% load('.\data\onoff\u_ref_full')
-% load('.\data\onoff\d_r_full')
+load('.\data\onoff\x_full')
+load('.\data\onoff\u_ref_full')
+load('.\data\onoff\d_r_full')
 
 
-load('.\data\onoff\x_long_v1')
-load('.\data\onoff\u_long_v1')
-load('.\data\onoff\d_r_long_v1')
+% load('.\data\onoff\x_long_v1')
+% load('.\data\onoff\u_long_v1')
+% load('.\data\onoff\d_r_long_v1')
 
 % load nominal parameters
 load('.\parameters\nominal\b31')
@@ -62,7 +62,7 @@ Bp = [b41, 0];
 Ep = zeros(1,3);
 
 d = d_r;
-% d(:,end) = [];
+ d(:,end) = [];
 
 % Nominal dynamics - combined
 A = [At; Ap];
@@ -135,7 +135,7 @@ end
 
 %% =============================================== GP training  ==============================================  
 gps = cell(Nx,1);                                                               % init gps
-n = 1800; % ARD combined                                                        % training set length
+n = 2800; % ARD combined                                                        % training set length
 sigma0 = std(y');                                                               % Initialize signal variance
 
 offset = 30;%10 ;%+ 1613;
@@ -146,8 +146,8 @@ tic
 for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
         'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
-        struct('UseParallel',true,'MaxObjectiveEvaluations',40,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'FitMethod','fic');
+        struct('UseParallel',true,'MaxObjectiveEvaluations',60,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2);
 end
 toc 
 % 'FitMethod','fic'
