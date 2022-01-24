@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_24_01_2022');
+load('data/DataSave_MPC_GP_23_01_2022');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -37,8 +37,8 @@ u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,8),'none');           
 u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,9),'none');           % [dm^3/s]
 
 % Lab experiment: reference to the pumps
-% u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
-% u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
+u_ref(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
+u_ref(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
 
 % disturbance
 d(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,13),'none');          % dt1
@@ -67,14 +67,14 @@ u2_on  = 14;                        % 14
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
-min_t1 = 3.8;             
-max_t2 = 6.2;     
-min_t2 = 4.3;
+min_t1 = 4.2 + 0.15;             
+max_t2 = 5.8;%5.95;     
+min_t2 = 4.3 + 0.15 ;
 % Tank safety region
-max_t1_op = 5.2;                    % UNIT:[dm] 
-min_t1_op = 4;
+max_t1_op = 5.6 + 0.15;                    % UNIT:[dm] 
+min_t1_op = 4.4 + 0.15;
 max_t2_op = 5.2;
-min_t2_op = 4.5;
+min_t2_op = 4.5 + 0.15;
 
 plotEnable = 1;
 if plotEnable == 1
@@ -131,6 +131,8 @@ xlim([0, length(d)]);
 ax(5) = subplot(3,2,5);
 plot(u(1,:)','blue','LineWidth',0.5)
 hold on
+plot(u_ref(1,:)','red','LineWidth',0.5)
+hold on
 yline(u1_off,'red--','Min','LineWidth',1.5);
 hold on
 yline(u1_on,'red--','Max','LineWidth',1.5);
@@ -142,6 +144,8 @@ xlim([0, length(d)]);
 
 ax(6) = subplot(3,2,6);
 plot((u(2,:))','blue','LineWidth',0.5)
+hold on
+plot((u_ref(2,:))','red','LineWidth',0.5)
 hold on
 yline(u2_off,'red--','Min','LineWidth',1.5);
 hold on
@@ -175,36 +179,19 @@ plot(KPI_sigma,'LineWidth',0.5)
 linkaxes(ax,'x');
 
 end
-%%
-plotEnable = 0;
-if plotEnable == 1
-figure
-subplot(2,1,1)
-plot(x(1:2,:)','LineWidth',0.5)
-ylabel('Water level','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Tank states','interpreter','latex')
-
-subplot(2,1,2)
-plot(x(3:6,:)','LineWidth',0.5)
-ylabel('Water level','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Pipe states','interpreter','latex')
-
-figure
-plot(u(1:2,:)','LineWidth',0.5)
-ylabel('Flow','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Pump flow','interpreter','latex')
-
-figure
-plot(d(1:3,:)','LineWidth',0.5)
-ylabel('Flow','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Disturbance flow','interpreter','latex')
-end
 
 %% Save dataSets
+
+% x_GP = x;
+% u_GP = u;
+% d_GP = d;
+% u_ref_GP = u_ref;
+% 
+% save('x_GP','x_GP')
+% save('u_GP','u_GP')
+% save('u_ref_GP','u_ref_GP')
+% save('d_GP','d_GP')
+
 % 
 %x = x(:,1:2500);
 %u = u(:,1:2500);

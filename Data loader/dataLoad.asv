@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_19_01_2022_v2');
+load('data/DataSave_MPC_GP_23_01_2022');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -37,8 +37,8 @@ u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,8),'none');           
 u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,9),'none');           % [dm^3/s]
 
 % Lab experiment: reference to the pumps
-% u(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
-% u(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
+u_ref(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,14),'none');           % [dm^3/s]
+u_ref(2,:) = uConv(labRes.Data(startData:t_resample:endData-1,15),'none');           % [dm^3/s]
 
 % disturbance
 d(1,:) = uConv(labRes.Data(startData:t_resample:endData-1,13),'none');          % dt1
@@ -52,8 +52,8 @@ conv_mm2Todm2 = 10^-4;
 Kt = labRes.Data(1,10)*conv_mm2Todm2;
 
 %plot(y)
-%%
 
+% KPIs
 KPI_u = labRes.Data(startData:t_resample:endData-1,22)'; 
 KPI_s = labRes.Data(startData:t_resample:endData-1,23)'; 
 KPI_o = labRes.Data(startData:t_resample:endData-1,24)'; 
@@ -131,6 +131,8 @@ xlim([0, length(d)]);
 ax(5) = subplot(3,2,5);
 plot(u(1,:)','blue','LineWidth',0.5)
 hold on
+plot(u_ref(1,:)','red','LineWidth',0.5)
+hold on
 yline(u1_off,'red--','Min','LineWidth',1.5);
 hold on
 yline(u1_on,'red--','Max','LineWidth',1.5);
@@ -142,6 +144,8 @@ xlim([0, length(d)]);
 
 ax(6) = subplot(3,2,6);
 plot((u(2,:))','blue','LineWidth',0.5)
+hold on
+plot((u_ref(2,:))','red','LineWidth',0.5)
 hold on
 yline(u2_off,'red--','Min','LineWidth',1.5);
 hold on
@@ -161,36 +165,19 @@ xlabel('Time','interpreter','latex');
 title('Pipe states','interpreter','latex')
 
 figure
-ax(1) = subplot(4,1,1)
+ax(1) = subplot(4,1,1);
+plot(KPI_u,'LineWidth',0.5)
 
-end
-%%
-plotEnable = 0;
-if plotEnable == 1
-figure
-subplot(2,1,1)
-plot(x(1:2,:)','LineWidth',0.5)
-ylabel('Water level','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Tank states','interpreter','latex')
+ax(2) = subplot(4,1,2);
+plot(KPI_s,'LineWidth',0.5)
 
-subplot(2,1,2)
-plot(x(3:6,:)','LineWidth',0.5)
-ylabel('Water level','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Pipe states','interpreter','latex')
+ax(3) = subplot(4,1,3);
+plot(KPI_o,'LineWidth',0.5)
 
-figure
-plot(u(1:2,:)','LineWidth',0.5)
-ylabel('Flow','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Pump flow','interpreter','latex')
+ax(4) = subplot(4,1,4);
+plot(KPI_sigma,'LineWidth',0.5)
+linkaxes(ax,'x');
 
-figure
-plot(d(1:3,:)','LineWidth',0.5)
-ylabel('Flow','interpreter','latex');
-xlabel('Time','interpreter','latex');
-title('Disturbance flow','interpreter','latex')
 end
 
 %% Save dataSets
