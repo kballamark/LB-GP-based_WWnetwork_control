@@ -126,7 +126,7 @@ for i = 1:Hp
 end
 
 %objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS); 
-objective_all = W_x*hV*(sumsqr([1,0; 0,4]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
+objective_all = W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
     + W_s*hV*sumsqr([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI) + hV*sumsqr(diag(W_o)*EPS);    
 
 % W_x = 0.01;
