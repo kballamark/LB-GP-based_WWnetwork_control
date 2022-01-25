@@ -8,6 +8,11 @@ load('u_ref_GP')
 load('d_GP')
 load('d_r_full')
 
+load('x_onoff')
+load('u_onoff')
+load('u_ref_onoff')
+load('d_onoff')
+
 %% Constraints
 
 % Input constraints                 % UNIT:[l/min]  
@@ -69,7 +74,7 @@ T_limit_up = 100;
 
 
 figure
-ax(1) = subplot(3,2,1);
+ax(1) = subplot(4,2,1);
 h1 = gca;
 yyaxis right
 bar(d_r(1,startPlot+5:endPlot),'FaceColor',[0.9290 0.6940 0.1250])
@@ -79,79 +84,125 @@ set(h1, 'YDir', 'reverse')
 yyaxis left
 plot(d_GP(1,startPlot:endPlot)','Color',[0.9500 0.1250 0.0980],'LineWidth',0.7)
 ylabel('Flow','interpreter','latex');
-title('(a) Inflow ($q_{t_1}$) and rain forecast ($d$)','interpreter','latex')
+title('(a) Inflow ($q_{t1}$) and rain forecast ($d$)','interpreter','latex')
 grid on
 ylim([3,10])
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
-leg = legend('$q_{t_1}$','$d$');
+leg = legend('Inflow','Rain forecast');
 set(leg,'Interpreter','latex');
 
-ax(2) = subplot(3,2,2);
+ax(2) = subplot(4,2,2);
 plot(d_GP(3,startPlot:endPlot)','Color',[0.9500 0.1250 0.0980],'LineWidth',0.7)
 ylabel('Flow','interpreter','latex');
 title('(b) Inflow ($q_p$)','interpreter','latex')
 grid on
-ylim([4,12.5])
+ylim([4,11])
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Inflow');
+set(leg,'Interpreter','latex');
 
-ax(3) = subplot(3,2,3);
+ax(3) = subplot(4,2,3);
 ciplot(min_t1_op_line,max_t1_op_line)
 hold on
-plot(x_GP(1,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',0.8)
+p1 = plot(x_onoff(1,startPlot:endPlot)','black','LineWidth',0.8);
+p1.Color(4) = 0.5;
+hold on
+plot(x_GP(1,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 hold on
 plot(startPlot:T_limit_up:endPlot,max_t1_line(1:T_limit_up:end),'red--')
 hold on
 plot(startPlot:T_limit_up:endPlot,min_t1_line(1:T_limit_up:end),'red--')
 ylabel('Level','interpreter','latex');
-title('(c) Tank level ($h_{t_1}$)','interpreter','latex')
+title('(c) Tank level ($h_{t1}$)','interpreter','latex')
 grid on
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Safety region','On/off','GP-MPC','Physical limits');
+set(leg,'Interpreter','latex');
 
-ax(4) = subplot(3,2,4);
+ax(4) = subplot(4,2,4);
 ciplot(min_t2_op_line,max_t2_op_line)
 hold on
-plot(x_GP(2,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',0.8)
+p2 = plot(x_onoff(2,startPlot:endPlot)','black','LineWidth',0.8);
+p2.Color(4) = 0.5;
+hold on
+plot(x_GP(2,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 hold on
 plot(startPlot:T_limit_up:endPlot,min_t2_line(1:T_limit_up:end),'red--')
 hold on
 plot(startPlot:T_limit_up:endPlot,max_t2_line(1:T_limit_up:end),'red--')
 ylabel('Level','interpreter','latex');
-title('(d) Tank level ($h_{t_2}$)','interpreter','latex')
+title('(d) Tank level ($h_{t2}$)','interpreter','latex')
 grid on
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Safety region','On/off','GP-MPC','Physical limits');
+set(leg,'Interpreter','latex');
 
-ax(5) = subplot(3,2,5);
+ax(5) = subplot(4,2,5);
 plot(u_GP(1,startPlot:endPlot)','Color',[0 0.2470 0.7410],'LineWidth',1)
 hold on
-plot(u_ref_GP(1,startPlot:endPlot)','red--','LineWidth',0.8)
+plot(u_ref_GP(1,startPlot:endPlot)','red','LineWidth',0.8)
 hold on
 plot(startPlot:T_limit_up:endPlot,u1_on_line(1:T_limit_up:end),'red--')
 hold on
 plot(startPlot:T_limit_up:endPlot,u1_off_line(1:T_limit_up:end),'red--')
 ylabel('Flow','interpreter','latex');
 xlabel('Time','interpreter','latex');
-title('$Q_{t_1}$','interpreter','latex')
+title('(e) Pump flow ($Q_{t1}$)','interpreter','latex')
 grid on
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Measurement','Reference','Actuator limits');
+set(leg,'Interpreter','latex');
 
-ax(6) = subplot(3,2,6);
+ax(6) = subplot(4,2,6);
 plot((u_GP(2,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
 hold on
-plot((u_ref_GP(2,startPlot:endPlot))','red--','LineWidth',0.8)
+plot((u_ref_GP(2,startPlot:endPlot))','red','LineWidth',0.8)
 hold on
 plot(startPlot:T_limit_up:endPlot,u2_on_line(1:T_limit_up:end),'red--')
 hold on
 plot(startPlot:T_limit_up:endPlot,u2_off_line(1:T_limit_up:end),'red--')
 ylabel('Flow','interpreter','latex');
 xlabel('Time','interpreter','latex');
-title('$Q_{t_1}$','interpreter','latex')
+title('(f) Pump flow ($Q_{t1}$)','interpreter','latex')
 grid on
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Measurement','Reference','Actuator limits');
+set(leg,'Interpreter','latex');
+
+subplot(4,2,7)
+plot((u_onoff(1,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
+hold on
+plot(startPlot:T_limit_up:endPlot,u1_on_line(1:T_limit_up:end),'red--')
+hold on
+plot(startPlot:T_limit_up:endPlot,u1_off_line(1:T_limit_up:end),'red--')
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('(f) Pump flow ($Q_{t1}$)','interpreter','latex')
+grid on
+xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
+xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Measurement','Actuator limits');
+set(leg,'Interpreter','latex');
+
+subplot(4,2,8)
+plot((u_onoff(2,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
+hold on
+plot(startPlot:T_limit_up:endPlot,u2_on_line(1:T_limit_up:end),'red--')
+hold on
+plot(startPlot:T_limit_up:endPlot,u2_off_line(1:T_limit_up:end),'red--')
+ylabel('Flow','interpreter','latex');
+xlabel('Time','interpreter','latex');
+title('(f) Pump flow ($Q_{t2}$)','interpreter','latex')
+grid on
+xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
+xticks(103:115:length(d_GP(:,startPlot:endPlot)))
+leg = legend('Measurement','Actuator limits');
+set(leg,'Interpreter','latex');
 
 linkaxes(ax,'x');

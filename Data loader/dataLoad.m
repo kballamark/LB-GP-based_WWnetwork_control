@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_23_01_2022');
+load('data/DataSave_Onoff_24_01_2022');
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -182,15 +182,15 @@ end
 
 %% Save dataSets
 
-% x_GP = x;
-% u_GP = u;
-% d_GP = d;
-% u_ref_GP = u_ref;
+% x_onoff = x;
+% u_onoff = u;
+% d_onoff = d;
+% u_ref_onoff = u_ref;
 % 
-% save('x_GP','x_GP')
-% save('u_GP','u_GP')
-% save('u_ref_GP','u_ref_GP')
-% save('d_GP','d_GP')
+% save('x_onoff','x_onoff')
+% save('u_onoff','u_onoff')
+% save('d_onoff','d_onoff')
+% save('u_ref_onoff','u_ref_onoff')
 
 % 
 %x = x(:,1:2500);
