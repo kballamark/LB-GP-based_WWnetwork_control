@@ -182,6 +182,8 @@ end
 
 %% Save dataSets
 
+%x_o_onoff = ((labRes.Data(startData:t_resample:endData-1,18:19)'/100)-1.6)*(Kt/(1/6));
+
 % x_onoff = x;
 % u_onoff = u;
 % d_onoff = d;
@@ -191,6 +193,7 @@ end
 % save('u_onoff','u_onoff')
 % save('d_onoff','d_onoff')
 % save('u_ref_onoff','u_ref_onoff')
+%save('x_o_onoff','x_o_onoff')
 
 % 
 %x = x(:,1:2500);
