@@ -143,7 +143,7 @@ leg = legend('Safety region','On/off','GP-MPC','Physical limits');
 set(leg,'Interpreter','latex');
 
 ax(5) = subplot(5,2,5);
-plot(x_o_onoff(1,startPlot:endPlot)-15','color',[0.9290 0.6940 0.1250],'LineWidth',1)
+plot(x_o_onoff(1,startPlot:endPlot)','color',[0.9290 0.6940 0.1250],'LineWidth',1)
 ylabel('Volume (dm$^3$)','interpreter','latex');
 title('Overflow volume','interpreter','latex')
 grid on
@@ -156,7 +156,7 @@ set(leg,'Interpreter','latex');
 ax(6) = subplot(5,2,6);
 plot(x_o_onoff(2,startPlot:endPlot)','color',[0.9500 0.1250 0.0980],'LineWidth',1)
 hold on
-plot(x_o_onoff(1,startPlot:endPlot)-15','color',[0 0.5 0],'LineWidth',1)
+plot(x_o_onoff(1,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 ylabel('Volume (dm$^3$)','interpreter','latex');
 title('Overflow volume','interpreter','latex')
 grid on

@@ -15,7 +15,9 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_Onoff_24_01_2022');
+load('data/DataSave_MPC_GP_23_01_2022_v1');
+% DataSave_MPC_GP_23_01_2022
+% DataSave_Onoff_25_01_2022
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
 %%
 labRes = ans;
@@ -182,18 +184,19 @@ end
 
 %% Save dataSets
 
-%x_o_onoff = ((labRes.Data(startData:t_resample:endData-1,18:19)'/100)-1.6)*(Kt/(1/6));
-
-% x_onoff = x;
-% u_onoff = u;
-% d_onoff = d;
-% u_ref_onoff = u_ref;
+ x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-61.28;
+ x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-75.3;
 % 
-% save('x_onoff','x_onoff')
-% save('u_onoff','u_onoff')
-% save('d_onoff','d_onoff')
-% save('u_ref_onoff','u_ref_onoff')
-%save('x_o_onoff','x_o_onoff')
+%  x_onoff = x;
+%  u_onoff = u;
+% % d_onoff = d;
+%  u_ref_onoff = u_ref;
+% % 
+%  save('x_onoff','x_onoff')
+%  save('u_onoff','u_onoff')
+% % save('d_onoff','d_onoff')
+%  save('u_ref_onoff','u_ref_onoff')
+% save('x_o_onoff','x_o_onoff')
 
 % 
 %x = x(:,1:2500);
