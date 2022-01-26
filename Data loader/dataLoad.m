@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_26_01_2022');
+load('data/DataSave_Onoff_26_01_2022');
 % DataSave_MPC_GP_23_01_2022
 % DataSave_Onoff_25_01_2022
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
@@ -183,23 +183,26 @@ linkaxes(ax,'x');
 
 end
 
-%% Save dataSets
+%% Save KPI dataSets
 
-save('KPI_u','KPI_u')
-save('KPI_s','KPI_s')
-save('KPI_o','KPI_o')
-save('KPI_sigma','KPI_sigma')
+% save('KPI_u','KPI_u')
+% save('KPI_s','KPI_s')
+% save('KPI_o','KPI_o')
+% save('KPI_sigma','KPI_sigma')
 
 
 %%
 
- x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-30.93;
- x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-45.06;
-% 
-%  x_onoff = x;
-%  u_onoff = u;
+%  x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-30.93;
+%  x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-45.06;
+ 
+  x_o_onoff(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-32.5 ;
+ x_o_onoff(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))- 27.1;
+%%
+  x_onoff = x;
+  u_onoff = u;
 % % d_onoff = d;
-%  u_ref_onoff = u_ref;
+  u_ref_onoff = u_ref;
 
 %  x_GP = x;
 %  u_GP = u;
@@ -213,11 +216,11 @@ save('KPI_sigma','KPI_sigma')
 %  save('x_o_GP','x_o_GP')
 
 % % 
-%  save('x_onoff','x_onoff')
-%  save('u_onoff','u_onoff')
-% % save('d_onoff','d_onoff')
-%  save('u_ref_onoff','u_ref_onoff')
-% save('x_o_onoff','x_o_onoff')
+%   save('x_onoff','x_onoff')
+%   save('u_onoff','u_onoff')
+% % % save('d_onoff','d_onoff')
+%   save('u_ref_onoff','u_ref_onoff')
+%  save('x_o_onoff','x_o_onoff')
 
 % 
 %x = x(:,1:2500);

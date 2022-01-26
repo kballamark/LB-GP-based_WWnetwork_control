@@ -12,7 +12,7 @@ load('x_o_GP','x_o_GP')
 load('x_onoff')
 load('u_onoff')
 load('u_ref_onoff')
-load('d_onoff')
+%load('d_onoff')
 load('x_o_onoff','x_o_onoff')
 
 %% Constraints
@@ -122,8 +122,8 @@ set(gca,'xticklabel',[])
 ax(3) = subplot(5,2,3);
 ciplot(min_t1_op_line,max_t1_op_line)
 hold on
-%%%p1 = plot(x_onoff(1,startPlot:endPlot)','black','LineWidth',0.8);
-%%%p1.Color(4) = 0.5;
+p1 = plot(x_onoff(1,startPlot:endPlot)','black','LineWidth',0.8);
+p1.Color(4) = 0.5;
 hold on
 plot(x_GP(1,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 hold on
@@ -142,8 +142,8 @@ set(gca,'xticklabel',[])
 ax(4) = subplot(5,2,4);
 ciplot(min_t2_op_line,max_t2_op_line)
 hold on
-%%%p2 = plot(x_onoff(2,startPlot:endPlot)','black','LineWidth',0.8);
-%%%p2.Color(4) = 0.5;
+p2 = plot(x_onoff(2,startPlot:endPlot)','black','LineWidth',0.8);
+p2.Color(4) = 0.5;
 hold on
 plot(x_GP(2,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 hold on
@@ -160,21 +160,21 @@ set(leg,'Interpreter','latex','NumColumns',4);
 set(gca,'xticklabel',[])
 
 ax(5) = subplot(5,2,5);
-%%%plot(x_o_onoff(1,startPlot:endPlot)','color',[0.9290 0.6940 0.1250],'LineWidth',1)
+plot(x_o_onoff(1,startPlot:endPlot)','color',[0.9500 0.1250 0.0980],'LineWidth',1)
 hold on
 plot(x_o_GP(1,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 ylabel('Volume (\textrm{dm}$^3$)','interpreter','latex');
 title('(e) Overflow volume ($V_{t1}$)','interpreter','latex')
 grid on
 xlim([startPlot, length(d_GP(:,startPlot:endPlot))]);
-ylim([0,30])
+ylim([0,6])
 xticks(103:115:length(d_GP(:,startPlot:endPlot)))
 leg = legend('On/off','GP-MPC');
 set(leg,'Interpreter','latex');
 set(gca,'xticklabel',[])
 
 ax(6) = subplot(5,2,6);
-%%%plot(x_o_onoff(2,startPlot:endPlot)','color',[0.9500 0.1250 0.0980],'LineWidth',1)
+plot(x_o_onoff(2,startPlot:endPlot)','color',[0.9500 0.1250 0.0980],'LineWidth',1)
 hold on
 plot(x_o_GP(2,startPlot:endPlot)','color',[0 0.5 0],'LineWidth',1)
 ylabel('Volume (\textrm{dm}$^3$)','interpreter','latex');
@@ -223,7 +223,7 @@ set(leg,'Interpreter','latex');
 set(gca,'xticklabel',[])
 
 ax(9) = subplot(5,2,9);
-%%%plot((u_onoff(1,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
+plot((u_onoff(1,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
 hold on
 plot(startPlot:T_limit_up:endPlot,u1_on_line(1:T_limit_up:end),'red--')
 hold on
@@ -238,7 +238,7 @@ leg = legend('Measurement','Actuator limits');
 set(leg,'Interpreter','latex');
 
 ax(10) = subplot(5,2,10);
-%%%plot((u_onoff(2,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
+plot((u_onoff(2,startPlot:endPlot))','Color',[0 0.2470 0.7410],'LineWidth',1)
 hold on
 plot(startPlot:T_limit_up:endPlot,u2_on_line(1:T_limit_up:end),'red--')
 hold on
