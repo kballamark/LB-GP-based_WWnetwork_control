@@ -1,0 +1,83 @@
+clear all; clc
+
+%% Load variables
+
+load('KPI_u')
+load('KPI_s')
+load('KPI_o')
+load('KPI_sigma')
+
+load('d_r_full')
+load('x_o_GP','x_o_GP')
+
+%%
+startPlot = 50;
+endPlot = 2200;%1600;
+
+%%
+
+figure
+ax(1) = subplot(3,1,1);
+plot(KPI_u(startPlot:endPlot),'LineWidth',1,'Color',[0 0.2470 0.7410])
+ylabel('$\textrm{KPI}_{\Delta u}$','interpreter','latex');
+title('(a) Pump flow smoothness KPI','interpreter','latex')
+grid on
+ylim([0,0.7])
+xlim([startPlot, length(KPI_u(startPlot:endPlot))]);
+xticks(103:115:length(KPI_u(startPlot:endPlot)))
+% leg = legend('Inflow');
+% set(leg,'Interpreter','latex');
+set(gca,'xticklabel',[])
+
+ax(2) = subplot(3,1,2);
+h1 = gca;
+yyaxis left
+%
+a = [1002-startPlot 1017-startPlot 1017-startPlot 1002-startPlot];
+b = [0 0 1.8 1.8];
+patch(a,b,'yellow','FaceAlpha',.4,'LineStyle',':')
+hold on
+a = [1727-startPlot 1739-startPlot 1739-startPlot 1727-startPlot];
+b = [0 0 1.8 1.8];
+patch(a,b,'yellow','FaceAlpha',.4,'LineStyle',':')
+hold on
+a = [1811-startPlot 182-startPlot 1739-startPlot 1811-startPlot];
+b = [0 0 1.8 1.8];
+patch(a,b,'yellow','FaceAlpha',.4,'LineStyle',':')
+hold on
+%
+plot(KPI_s(startPlot:endPlot),'LineWidth',1,'Color',[0 0.2470 0.7410])
+ylabel('$\textrm{KPI}_{\xi}$','interpreter','latex');
+ylim([0,1.8])
+yyaxis right
+plot(KPI_o(startPlot:endPlot),'LineWidth',1,'Color',[0 0.5 0])
+temp = sum(x_o_GP,1);
+plot(temp(startPlot:endPlot)*0.05)
+ylim([0,1])
+ylabel('$\textrm{KPI}_{\epsilon}$','interpreter','latex');
+title('(b) Overflow and safety violation KPI','interpreter','latex')
+grid on
+% ylim([4,11])
+xlim([startPlot, length(KPI_u(startPlot:endPlot))]);
+xticks(103:115:length(KPI_u(startPlot:endPlot)))
+% leg = legend('Inflow');
+% set(leg,'Interpreter','latex');
+h1.YAxis(1).Color = [0 0.2470 0.7410];
+h1.YAxis(2).Color = [0 0.5 0];
+set(gca,'xticklabel',[])
+
+
+
+ax(3) = subplot(3,1,3);
+plot(KPI_sigma(startPlot:endPlot),'LineWidth',1,'Color',[0 0.2470 0.7410])
+ylabel('$\textrm{KPI}_{\Sigma}$','interpreter','latex');
+title('(c) Uncertainty KPI','interpreter','latex')
+grid on
+ ylim([0,0.05])
+xlim([startPlot, length(KPI_u(startPlot:endPlot))]);
+xticks(103:115:length(KPI_u(startPlot:endPlot)))
+% leg = legend('Inflow');
+% set(leg,'Interpreter','latex');
+xlabel('Time (10s)','interpreter','latex');
+
+linkaxes(ax,'x');

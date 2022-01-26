@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_MPC_GP_23_01_2022_v1');
+load('data/DataSave_MPC_GP_26_01_2022');
 % DataSave_MPC_GP_23_01_2022
 % DataSave_Onoff_25_01_2022
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
@@ -160,6 +160,7 @@ xlim([0, length(d)]);
 
 linkaxes(ax,'x');
 
+
 figure
 plot(x(3:6,:)','LineWidth',0.5)
 ylabel('Water level','interpreter','latex');
@@ -184,13 +185,33 @@ end
 
 %% Save dataSets
 
- x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-61.28;
- x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-75.3;
+save('KPI_u','KPI_u')
+save('KPI_s','KPI_s')
+save('KPI_o','KPI_o')
+save('KPI_sigma','KPI_sigma')
+
+
+%%
+
+ x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-30.93;
+ x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-45.06;
 % 
 %  x_onoff = x;
 %  u_onoff = u;
 % % d_onoff = d;
 %  u_ref_onoff = u_ref;
+
+%  x_GP = x;
+%  u_GP = u;
+%  d_GP = d;
+%  u_ref_GP = u_ref;
+%  
+%  save('x_GP','x_GP')
+%   save('u_GP','u_GP')
+%  save('d_GP','d_GP')
+%   save('u_ref_GP','u_ref_GP')
+%  save('x_o_GP','x_o_GP')
+
 % % 
 %  save('x_onoff','x_onoff')
 %  save('u_onoff','u_onoff')
