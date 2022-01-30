@@ -125,21 +125,13 @@ for i = 1:Hp
     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
 end
 
-%objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS); 
-objective_all = W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
-    + W_s*hV*sumsqr([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI) + hV*sumsqr(diag(W_o)*EPS);    
+% Working
+% objective_all = W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
+%     + W_s*hV*sumsqr([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI) + hV*sumsqr(diag(W_o)*EPS);  
 
-% W_x = 0.01;
-% W_u = [8,0; 0,4*10]; 
-% W_s = [240,0,0,0; 0,480,0,0; 0,0,240,0; 0,0,0,480];%[20,0,0,0; 0,40,0,0; 0,0,20,0; 0,0,0,40];  
-% W_o = 10000;
-% 
-% objective_sigma = 0;
-% for i = 1:Hp
-%     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
-% end
-% 
-% objective_all = W_x*hV*(sumsqr(mu_X(1:Nxt,2:end)) + objective_sigma) + sumsqr(W_u*dU) + hV*sumsqr(W_s*XI) + W_o*hV*sumsqr(EPS);   
+% test
+objective_all = W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
+    + 10*W_s*hV*sum(sum([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sumsqr(diag(W_o)*EPS); 
 
 opti.minimize(objective_all); 
 
