@@ -130,8 +130,8 @@ end
 %     + W_s*hV*sumsqr([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI) + hV*sumsqr(diag(W_o)*EPS);  
 
 % test
-objective_all = W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
-    + 10*W_s*hV*sum(sum([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sumsqr(diag(W_o)*EPS); 
+objective_all = 100*W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 1*objective_sigma) + W_u*sumsqr([5,0; 0,2]*dU)...
+    + W_s*hV*sum(sum([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sum(sum(diag(W_o)*EPS)); 
 
 opti.minimize(objective_all); 
 
