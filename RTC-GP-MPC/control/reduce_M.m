@@ -28,6 +28,4 @@ end
 Z_train_new = Z_train(:,indices_min(1:M));
 Y_train_new = Y_train(:,indices_min(1:M));
 
-
-
 end

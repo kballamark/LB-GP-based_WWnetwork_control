@@ -58,7 +58,6 @@ tic
 [U_opt_Hp, mu_X_opt_Hp, sigma_X_opt_Hp, lam_g, x_init, mu_p_opt, XI_opt_Hp, EPS_opt_Hp, dU_opt_Hp] = ...
     OCP(X0, disturbance, sigma_X0_init, Z_train_subset, Y_train_subset, GP.sigma_f, lam_g, x_init, inv_K_xx_val, u_prev, time_GP);
 
-
 %First-step Solutions
 u_sol = full(U_opt_Hp(:,1));
 eps_sol = full(EPS_opt_Hp(:,1));
