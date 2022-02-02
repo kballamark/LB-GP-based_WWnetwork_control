@@ -37,7 +37,7 @@ load('time series\disturbance forecast\D_sim_rain')                  % rain fore
 % Input constraints                 % UNIT:[l/min]  
 u1_on  = 6.5;                       % 6.5                                          
 u1_off = 3.5;                       % 3.5  
-u2_on  = 14;                        % 14  
+u2_on  = 15;%14;                        % 14  
 u2_off = 5.4;                       % 5.4       
 % Tank constraints                  % UNIT:[dm] 
 max_t1 = 6.8;                       % 6.9    
@@ -98,8 +98,8 @@ D_sim(:,1:200*20) = [];
 D_sim_rain(:,1:200*20) = [];
 
 % % test for only rainy period
-% D_sim(:,1:1350*20) = [];
-% D_sim_rain(:,1:1350*20) = [];
+D_sim(:,1:1350*20) = [];
+D_sim_rain(:,1:1350*20) = [];
 
 % little rain events without no rain period
 % D_sim(:,1:430*20) = [];

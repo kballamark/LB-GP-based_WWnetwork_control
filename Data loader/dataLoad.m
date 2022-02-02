@@ -15,7 +15,7 @@ clear all; clc
 % """
 
 addpath('data');
-load('data/DataSave_Onoff_26_01_2022');
+load('data/DataSave_MPC_GP');
 % DataSave_MPC_GP_23_01_2022
 % DataSave_Onoff_25_01_2022
 %load('Lab_simulator\Simulator\data\Simulation_data_WWdata_v2');
@@ -196,13 +196,13 @@ end
 %  x_o_GP(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-30.93;
 %  x_o_GP(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))-45.06;
  
-  x_o_onoff(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-32.5 ;
- x_o_onoff(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))- 27.1;
+ % x_o_onoff(1,:) = ((labRes.Data(startData:t_resample:endData-1,18)'/100))*(Kt/(1/6))-32.5 ;
+ %x_o_onoff(2,:) = ((labRes.Data(startData:t_resample:endData-1,19)'/100))*(Kt/(1/6))- 27.1;
 %%
-  x_onoff = x;
-  u_onoff = u;
+ % x_onoff = x;
+ % u_onoff = u;
 % % d_onoff = d;
-  u_ref_onoff = u_ref;
+ % u_ref_onoff = u_ref;
 
 %  x_GP = x;
 %  u_GP = u;
