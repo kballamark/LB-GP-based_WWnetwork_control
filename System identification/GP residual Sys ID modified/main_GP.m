@@ -58,7 +58,8 @@ a33 = 0;                                                                        
 a43 = 0;
 a44 = 0;
 Ap = [0,a43, a44];
-Bp = [b41, 0];
+%Bp = [b41, 0];
+Bp = [0, 0];
 Ep = zeros(1,3);
 
 d = d_r;
@@ -68,7 +69,7 @@ d = d_r;
 A = [At; Ap];
 B = [Bt; Bp];
 E = [Et; Ep];
-f = A*x(:,1:end-1) + B*u(:,1:end-1) + E*d(:,1:end-1) + [0;0;c3];
+f = A*x(:,1:end-1) + B*u(:,1:end-1) + E*d(:,1:end-1); %+ [0;0;c3];
 
 % Build residuals
 Bd = eye(Nxt + Nxp);                                                            % mapping matrix
@@ -145,9 +146,9 @@ opts.TolFun = 1e-2;                                                             
 tic 
 for i = 1:Nx
     gps{i} = fitrgp((C{i}*z(:,1 + offset: n + offset))',y(i,1 + offset: n + offset)','OptimizeHyperparameters','auto',...
-        'KernelFunction','ardsquaredexponential','BasisFunction','none','HyperparameterOptimizationOptions',...
-        struct('UseParallel',true,'MaxObjectiveEvaluations',60,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
-        'Sigma',sigma0(i),'Standardize',1,'Verbose',2);
+        'KernelFunction','ardsquaredexponential','BasisFunction','constant','HyperparameterOptimizationOptions',...
+        struct('UseParallel',true,'MaxObjectiveEvaluations',40,'Optimizer','bayesopt'),'OptimizerOptions',opts,...
+        'Sigma',sigma0(i),'Standardize',1,'Verbose',2,'FitMethod','fic');
 end
 toc 
 % 'FitMethod','fic'
@@ -155,9 +156,9 @@ toc
 plotter;
 
 %% ============================================= Save GP object ==============================================  
-%save('.\GPs\gps','gps')
+save('.\GPs\gps','gps')
 %save('.\GPs_short\gps')
-load('.\GPs\gps')
+%load('.\GPs\gps')
 
 %% ====================================== Build & Save hyperparameters =======================================  
 % Build sigma_L and sigma_f
@@ -187,12 +188,12 @@ save('.\GP_parameters','sigma_f','inv_sigma_L','sigma','z_train','y_train','t_mo
 
 %% Test on validation data
 
-num_test = 1;
+num_test = 3;
 gp1 = gps{num_test};
 [respred1,~,ress_ci] = predict(gp1, (C{num_test}*z(:,n:n+np))');
 
 figure
-plot(x(num_test,1:end))
+plot(x(num_test,n:n+np))
 hold on
-plot(respred1' + f(num_test,999:end))
+plot(respred1' + f(num_test,n:n+np))
 %  

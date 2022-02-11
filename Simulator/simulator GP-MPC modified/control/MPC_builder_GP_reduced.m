@@ -14,7 +14,7 @@ Et = zeros(Nxt,ND);
 % Pipe dynamics
 
 Ap = [0, 0, 0];
-Bp = [b41, 0];
+Bp = [0, 0];
 Ep = zeros(Nxp,ND);
 
 A = [At; Ap];
@@ -110,7 +110,7 @@ for k = 1:Hp
     %mu_X(:,k+1) = A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d + [0;0;c3;c4];
     %sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) = Bd*diag(sigma_d + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)';
                             
-    opti.subject_to(mu_X(:,k+1) == A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d + [0;0;c4]);  
+    opti.subject_to(mu_X(:,k+1) == A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d); %+ GP.Beta);  
     opti.subject_to(sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) == Bd*diag(sigma_d  + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)');  
 progressbar(k/Hp) 
 end
@@ -134,10 +134,10 @@ hV = Kt/dt_MPC;
 
 
 
-W_x = 0.1;    %10
-W_u = 10; 
-W_s = 500;  
-W_o = 1000;%100;
+W_x = 0.01;    %10
+W_u = 1; 
+W_s = 10;  
+W_o = 100;%100;
 
 objective_sigma = 0;
 for i = 1:Hp

@@ -157,7 +157,7 @@ end
 % save('d_retrain','d_retrain')
 
 %% test
-testTrue = 1;
+testTrue = 0;
 if testTrue == 1
 dim_select = 3;
 step_select = 1500;

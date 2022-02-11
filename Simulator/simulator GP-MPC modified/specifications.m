@@ -33,6 +33,7 @@ load('.\parameters\test\b41','b41');
 load('.\parameters\test\c3','c3'); 
 load('.\parameters\test\c4','c4'); 
 
+c3 = 0;
 c4 = 0;
 b41 = 0;
 
