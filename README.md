@@ -19,7 +19,7 @@ This repository is a how-to documentation for the control toolchain designed in 
 
 ## How to cite
 
->Balla, KM, Bendtsen, JD, Kallesøe, C, & Ocampo-Martinez, C 2021, 'A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study', Unspecified.
+>Balla, KM, Bendtsen, JD, Schou, C, Kallesøe, C, & Ocampo-Martinez, C 2021, 'A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study', Unspecified.
 
 ```
 @article{Balla_LBGP_WWcontrol,
@@ -64,7 +64,7 @@ Detailed documentation (`WW Lab setup doc.pdf`) with illustrations for the topol
 ## Simulator
 An exact simulator designed specifically for the experimental setup. The simulator represents the equivalent of the Smart Water Lab. The purpose of this simulator is the reproducability of the tests in simulation in case the laboratory access is out of scope. The modelling used in the simulator setup is based on the article: 
 
->Balla, KM, Schou, C, Bendtsen, JD, Ocampo-Martinez, C & Kallesøe, C 2021, 'A Nonlinear Predictive Control Approach for Urban Drainage Networks Using Data-Driven Models and Moving Horizon Estimation', IEEE Transactions on Control Systems Technology.
+>K. M. Balla, C. Schou, J. D. Bendtsen, C. Ocampo-Martínez, and C. S. Kallesøe. “A Nonlinear Predictive Control Approach for Urban Drainage Networks Using Data-Driven Models and Moving Horizon Estimation”. IEEE Transactions on Control Systems Technology (Early Access), pages 1–16, 2022d. doi:10.1109/TCST.2021.3137712.
 
 * simulator PDE based: Run the `main_simulator.m` file to start the simulation. There are two types of controllers implemented in this simulator. In the simulation loop select number 1 to execute `onoff_control.m` for rule-based on/off control or number 2 to build `MPC_builder.m` to execute the PDE-based MPC.
 * simulator GP : (description in progress)
