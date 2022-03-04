@@ -2,7 +2,7 @@
 
 This repository is a how-to documentation for the control toolchain designed in the work: "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study".  
 
->The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here. The abstract goes here.
+>Smart control in water systems aims to reduce the cost of infrastructure expansion by better utilizing the available capacity through real-time control. The recent availability of sensors and advanced data processing is expected to transform the view of water system operators, increasing the need for deploying a new generation of data-driven control solutions. To that end, this paper proposes a data-driven control framework for combined wastewater and stormwater networks. We propose to learn the effect of wet- and dry-weather flows through the variation of water levels via deploying a number of level sensors in the network. To tackle the challenges associated with combining hydraulic and hydrologic modelling, we adopt a Gaussian process-based predictive control tool to capture the dynamic effect of rain and wastewater inflows, while applying domain knowledge to preserve the balance of water volumes. To show the practical feasibility of the approach, we test the control performance on a laboratory setup, inspired by the topology of a real-world wastewater network. We compare our method to a rule-based controller currently used by the water utility operating the proposed network. Overall, the controller learns the wastewater load and the temporal dynamics of the network, and therefore significantly outperforms the baseline controller, especially during high-intensity rain periods. Finally, we discuss benefits and drawbacks of the approach for practical real-time control implementations. 
 
 ![Smart Water Laboratory at Aalborg University for benchmarking the GP-MPC control algorithms.](./images/setup_scheme.PNG)
 
@@ -22,10 +22,10 @@ This repository is a how-to documentation for the control toolchain designed in 
 >Balla, KM, Bendtsen, JD, Kallesøe, C, & Ocampo-Martinez, C 2021, 'A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study', Unspecified.
 
 ```
-@article{name_article,
+@article{Balla_LBGP_WWcontrol,
 title = "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study",
-author = "Balla, {Krisztian Mark} and Bendtsen, {Jan Dimon} and Kalles{\o}e, {Carsten Skovmose} and Carlos Ocampo-Martinez",
-year = "unspecified",
+author = "Balla, {Krisztian Mark} and Bendtsen, {Jan Dimon} and Schou, {Christian} and Kalles{\o}e, {Carsten Skovmose} and Carlos Ocampo-Martinez",
+year = "2022",
 language = "English",
 journal = "unspecified",
 issn = "unspecified",
