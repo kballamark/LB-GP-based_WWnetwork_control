@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 90;                            % Number of points selected for GP prediction
+M  = 80;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
@@ -55,7 +55,7 @@ min_t2_op = 4.5 + 0.15;
 
 %% ========================================= Control specifications =============================
 t_resample = 20;                    % Resample raw data - conversion between lab sampling/MPC time steps
-Hp = 30;                            % 
+Hp = 20;                            % 
 dt_original = 0.5;                  % In lab we sample with dt = 0.5 [s]
 data_timeUnit = 60;                 % second/minute conversion
 dt_MPC = dt_original*t_resample/data_timeUnit;
@@ -98,8 +98,8 @@ D_sim(:,1:200*20) = [];
 D_sim_rain(:,1:200*20) = [];
 
 % % test for only rainy period
-D_sim(:,1:1350*20) = [];
-D_sim_rain(:,1:1350*20) = [];
+% D_sim(:,1:1350*20) = [];
+% D_sim_rain(:,1:1350*20) = [];
 
 % test no forecast scenario: 
 %D_sim_rain(:,:) = 0;
