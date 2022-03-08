@@ -19,7 +19,7 @@ Nu = 2;                             % number of inputs
 Ny = Nx;                            % number of GP residuals
 ND = 3;                             % number of disturbances
 Nz = Nx + Nu + ND + 1;              % dimension of the training set (+1 counts for time)
-M  = 80;                            % Number of points selected for GP prediction
+M  = 90;                            % Number of points selected for GP prediction
 
 %% =============================================== Parameters ====================================
 load('parameters\nominal\Kt')                   % tank parameters
@@ -45,7 +45,7 @@ min_t1 = 4.2 + 0.15;
 max_t2 = 5.8;%5.95;     
 min_t2 = 4.3 + 0.15 ;
 % Pipe constraints                  % UNIT:[dm] 
-h_p_max = 1;
+h_p_max = 0.5;
 h_p_min = 0.00001;
 % Tank safety region
 max_t1_op = 5.6 + 0.15;                    % UNIT:[dm] 
@@ -55,7 +55,7 @@ min_t2_op = 4.5 + 0.15;
 
 %% ========================================= Control specifications =============================
 t_resample = 20;                    % Resample raw data - conversion between lab sampling/MPC time steps
-Hp = 20;                            % 
+Hp = 30;                            % 
 dt_original = 0.5;                  % In lab we sample with dt = 0.5 [s]
 data_timeUnit = 60;                 % second/minute conversion
 dt_MPC = dt_original*t_resample/data_timeUnit;

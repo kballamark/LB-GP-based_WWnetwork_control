@@ -92,45 +92,45 @@ for k = 1:Hp
     end
     % Build mu_d and sigma_d (GP)
     mu_d = casadi.MX(Nx,1);
-    sigma_d = casadi.MX(Nx,1);
+    %sigma_d = casadi.MX(Nx,1);
     for i = 1:Nx
         mu_d(i) = K_xz(:,i)' * inv_K_xx(:,(i-1)*M+1:i*M) * Y_train(i,:)';
-        sigma_d(i) = K_zz(:,i) - K_xz(:,i)' * inv_K_xx(:,(i-1)*M+1:i*M) * K_xz(:,i);
+       %sigma_d(i) = K_zz(:,i) - K_xz(:,i)' * inv_K_xx(:,(i-1)*M+1:i*M) * K_xz(:,i);
     end
     % Mean gradient 
-    grad_mu = casadi.MX(Nz,Nx);
-    alpha = opti.parameter(M,Nx);
-    for a = 1:Nx
-        alpha(:,a) = inv_K_xx(:,(a-1)*M+1:a*M) * Y_train(a,:)';  
-        grad_mu(:,a) = (-(GP.C{a}' * (GP.inv_sigma_L{a}.^2)*GP.C{a}) * (Z - Z_train)*(K_xz(:,a).*alpha(:,a)))';
-    end
-    grad_mu = grad_mu(1:Nx,1:Nx);
+%     grad_mu = casadi.MX(Nz,Nx);
+%     alpha = opti.parameter(M,Nx);
+%     for a = 1:Nx
+%         alpha(:,a) = inv_K_xx(:,(a-1)*M+1:a*M) * Y_train(a,:)';  
+%         grad_mu(:,a) = (-(GP.C{a}' * (GP.inv_sigma_L{a}.^2)*GP.C{a}) * (Z - Z_train)*(K_xz(:,a).*alpha(:,a)))';
+%     end
+%    grad_mu = grad_mu(1:Nx,1:Nx);
     % Mean and covariance dynamics - uncertainty propagation                           
     opti.subject_to(mu_X(:,k+1) == A*mu_X(:,k) + B*U(:,k) + E*D(:,k) + Bd*mu_d + [0;0;c3;c4]);  
-    %opti.subject_to(sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) == Bd*diag(sigma_d  + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)');  
+%    opti.subject_to(sigma_X(:,((k-1)*Nx+1)+Nx:(k*Nx)+Nx) == Bd*diag(sigma_d  + GP.sigma'.^2)*Bd' + (A + Bd*grad_mu)*sigma_X(:,((k-1)*Nx+1):(k*Nx))*(A + Bd*grad_mu)');  
 progressbar(k/Hp) 
 end
 
 %% =========================================== Objective function ==============================
 hV = Kt/dt_MPC;
 
-% W_x = 0.0001;    %10
-% W_u = 10;%10;%10; 
-% W_s = 10;  
-% W_o = [25, 200, 0.1, 0.1, 1000, 1000, 0.1, 0.1];
+W_x = 0.0001;    %10
+W_u = 10;%10;%10; 
+W_s = 10;  
+W_o = [500, 1000, 0.1, 0.1, 1000, 1000, 0.1, 0.1];
 
  objective_sigma = 0;
 for i = 1:Hp
     objective_sigma = objective_sigma + trace(sigma_X(1:Nx,((i-1)*Nx+1):(i*Nx))); %trace(sigma_X(1:Nxt,((i-1)*Nx+1):(i*Nx)-Nxp));
 end
 
-W_x = 0.005;    %10
-W_u = 1;%10;%10; 
-W_s = 1;  
-W_o = [10, 30, 0.1, 0.1, 10, 10, 0.1, 0.1];
+% W_x = 0.0001;    %10
+% W_u = 2;%10;%10; 
+% W_s = 5;  
+% W_o = [10, 20, 0.1, 0.1, 10, 10, 0.1, 0.1];
 
 objective_all = 1*W_x*hV*(sumsqr([1,0; 0,1]*mu_X(1:Nxt,1:end)) + 0.1*objective_sigma) + W_u*sumsqr([1,0; 0,2]*dU)...
-    + W_s*hV*sumsqr(([1,0,0,0; 0,10,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sumsqr((diag(W_o)*EPS)); 
+    + W_s*hV*sumsqr(([1,0,0,0; 0,1,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sumsqr((diag(W_o)*EPS)); 
 
 opti.minimize(objective_all); 
 
