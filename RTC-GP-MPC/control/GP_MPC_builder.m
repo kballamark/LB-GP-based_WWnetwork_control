@@ -114,10 +114,10 @@ end
 %% =========================================== Objective function ==============================
 hV = Kt/dt_MPC;
 
-W_x = 0.0001;    %10
-W_u = 10;%10;%10; 
+W_x = 0.001;    %10
+W_u = 8;%10;%10; 
 W_s = 10;  
-W_o = [500, 1000, 0.1, 0.1, 1000, 1000, 0.1, 0.1];
+W_o = [50, 100, 0.1, 0.1, 100, 100, 0.1, 0.1];
 
  objective_sigma = 0;
 for i = 1:Hp
@@ -129,7 +129,7 @@ end
 % W_s = 5;  
 % W_o = [10, 20, 0.1, 0.1, 10, 10, 0.1, 0.1];
 
-objective_all = 1*W_x*hV*(sumsqr([1,0; 0,2]*mu_X(1:Nxt,1:end)) + 0.1*objective_sigma) + W_u*sumsqr([1,0; 0,2]*dU)...
+objective_all = 1*W_x*hV*(sumsqr([0.1,0; 0,2]*mu_X(1:Nxt,1:end)) + 0.1*objective_sigma) + W_u*sumsqr([1,0; 0,2]*dU)...
     + W_s*hV*sumsqr(([1,0,0,0; 0,1,0,0; 0,0,10,0; 0,0,0,10]*XI)) + hV*sumsqr((diag(W_o)*EPS)); 
 
 opti.minimize(objective_all); 
