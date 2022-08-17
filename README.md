@@ -19,17 +19,20 @@ This repository is a how-to documentation for the control toolchain designed in 
 
 ## How to cite
 
->Balla, KM, Bendtsen, JD, Schou, C, Kallesøe, C, & Ocampo-Martinez, C 2021, 'A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study', Unspecified.
+>Balla, K. M., Bendtsen, J. D., Schou, C., Kallesøe, C., & Ocampo-Martinez, C. (2022). A learning-based approach towards the data-driven predictive control of combined wastewater networks - An experimental study. Water Research, 221, 1-16. [118782]. https://doi.org/10.1016/j.watres.2022.118782
 
 ```
-@article{Balla_LBGP_WWcontrol,
-title = "A Learning-based Approach Towards the Data-driven Predictive Control of Wastewater Networks – An Experimental Study",
-author = "Balla, {Krisztian Mark} and Bendtsen, {Jan Dimon} and Schou, {Christian} and Kalles{\o}e, {Carsten Skovmose} and Carlos Ocampo-Martinez",
-year = "2022",
-language = "English",
-journal = "unspecified",
-issn = "unspecified",
-publisher = "unspecified",
+@article{BALLA2022118782,
+title = {A learning-based approach towards the data-driven predictive control of combined wastewater networks – An experimental study},
+journal = {Water Research},
+volume = {221},
+pages = {118782},
+year = {2022},
+issn = {0043-1354},
+doi = {https://doi.org/10.1016/j.watres.2022.118782},
+url = {https://www.sciencedirect.com/science/article/pii/S0043135422007357},
+author = {Krisztian Mark Balla and Jan Dimon Bendtsen and Christian Schou and Carsten Skovmose Kallesøe and Carlos Ocampo-Martinez},
+keywords = {Smart water system, Data-driven modelling, Control, Uncertainty, Sewer network}
 }
 ```
 
